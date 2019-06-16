@@ -26,20 +26,28 @@ class Content extends React.Component {
         
     }
 
-    render() {
-
-        // Check that data has been retrieved
-        const dataIsHere = () => {
-            if (this.state.stocks){
-                console.log(this.state.stocks.data)
-                return this.state.stocks.data.financials[0]["grossProfit"]
-             }
+    renderData = () => {
+        let listItems;
+        // Sanity check for stock data
+        if (this.state.stocks){
+            listItems = Object.entries(this.state.stocks.data.financials[0]).map(item => {
+                return (
+                    <li>{`${item[0].toUpperCase()}: ${item[1]}`}</li>
+                );
+            });
         }
+        return listItems;
+    }
 
+    render() {
         return (
             <div>
                 <h1>{this.state.id}</h1>
-                <p>{dataIsHere()}</p>
+                <div>
+                    <ul>
+                        {this.renderData()}
+                    </ul>
+                </div>
 
                 <style jsx>{`
                     h1 {
