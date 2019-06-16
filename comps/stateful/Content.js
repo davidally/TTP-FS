@@ -6,14 +6,15 @@ class Content extends React.Component {
         super(props);
 
         this.state = {
-            id: props.itemdata
+            id: props.itemdata,
+            mounted: false
         };
     }
 
     /**
      * Makes API call and returns a promise. This function is executed
      * when the component is mounted.
-     * @returns {object} A promise to be resolved.
+     * @returns {object} data - A promise to be resolved.
      */
     fetchData = async () => {
         const res = await fetch(`https://sandbox.iexapis.com/v1/stock/${this.state.id}/financials/2?token=Tpk_4a728bea05b54378b80585aa076cb8e5&period=annual`);
@@ -25,7 +26,8 @@ class Content extends React.Component {
 
         this.fetchData().then(data => {
             this.setState({
-                stocks: {data}
+                stocks: {data},
+                mounted: true
             });
         });
         
@@ -34,6 +36,7 @@ class Content extends React.Component {
     /**
      * This function renders the stock data points if the stock is set in state.
      * @TODO Refactor if possible to make neater.
+     * @returns listItems - Returns JSX tags which contain the data.
      */
     renderData = () => {
         let listItems;
@@ -41,24 +44,47 @@ class Content extends React.Component {
         if (this.state.stocks){
             listItems = Object.entries(this.state.stocks.data.financials[0]).map(item => {
                 return (
-                    <li className="list-item">{`${item[0].toUpperCase()}: ${item[1]}`}</li>
+                    <tr>
+                        <td className="list-item">{`${item[0].toUpperCase()}`}</td>
+                        <td className="list-item">{`${item[1]}`}</td>
+                    </tr>
                 );
             });
         }
         return listItems;
     }
 
+    /**
+     * This function creates a dynamic styles block which is separate from the static
+     * styles. All dynamic styling after the component renders should be placed here.
+     */
+    renderDynamicStyles = () => {
+        if (this.state.mounted == true){
+            return (
+                <style jsx>{`
+                    tr:nth-child(odd) {
+                        background-color: ${this.state.mounted === true ? 'grey' : 'black'};
+                    }
+                `}</style>
+            );
+        }
+    }
+
     render() {
         return (
             <div>
+                <small>All data provided by the IPEX.</small>
                 <h1>{this.props.itemdata}</h1>
                 <div className="stock-data">
-                    <ul>
+                    <tbody>
                         {this.renderData()}
-                    </ul>
+                    </tbody>
                 </div>
 
-                <style jsx>{`
+                
+                <style jsx>{
+                    // Static styles
+                    `
                     h1 {
                         font-family: "Muli", sans-serif;
                         font-size: 50px;
@@ -72,7 +98,12 @@ class Content extends React.Component {
                         color: #474747;
                         background-color: #efefef;
                     }
-                `}</style>
+                    `
+                }</style>
+                {
+                    // Render dynamic styles from dynamicStyles function
+                    this.renderDynamicStyles()
+                }
             </div>
         );
     }

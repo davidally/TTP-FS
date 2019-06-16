@@ -8,33 +8,37 @@ const navMenu = [
 ];
 
 const Header = () => (
-    <div>
-        <ul>
-            {
-                navMenu.map(item =>
-                    <li>
-                        <Link href={item[0]}>
-                            <a>{item[1]}</a>
-                        </Link>
-                    </li>
-                )
-            }
-        </ul>
+    <div className="navigation">
+        <div className="nav-menu">
+            <ul>
+                {
+                    navMenu.map(item =>
+                        <li>
+                            <Link href={item[0]}>
+                                <a>{item[1]}</a>
+                            </Link>
+                        </li>
+                    )
+                }
+            </ul>
+        </div>
 
         <style jsx>{`
-            div {
+            .navigation {
                 background: #333;
-                width: 100;
-                height: 200px;
+                width: 100%;
+                padding: 20px 0;
             }
 
-            ul {
+            .nav-menu {
                 display: flex;
+                justify-content: center;
                 list-style: none;
             }
 
-            li {
+            .nav-menu li {
                 margin-right: 20px;
+                display: inline;
             }
         `}</style>
     </div>

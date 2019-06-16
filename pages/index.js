@@ -1,4 +1,5 @@
 import Layout from '../containers/Layout';
+import Authenticate from '../comps/stateful/Authenticate';
 import Link from 'next/link';
 
 /**
@@ -12,7 +13,7 @@ const stock = "AAPL";
 const Index = (props) => (
     <div>
         <Layout>
-            <h1>Viewing Stocks</h1>
+            <Authenticate />
             <ul>
                 <li key={`${stock.toLowerCase()}`}>
                     <Link as={`/stock/${stock}`} href={`/post?id=${stock}`}>
