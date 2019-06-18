@@ -7,6 +7,7 @@ class Dashboard extends React.Component {
     render() {
         return (
             <Layout>
+                <h1>Global style test</h1>
                 <ul>
                     <li key={`${stock.toLowerCase()}`}>
                         <Link as={`/stock/${stock}`} href={`/post?id=${stock}`}>

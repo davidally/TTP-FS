@@ -32,7 +32,7 @@ class Login extends React.Component {
         return (
             <div className="login-container">
                     <h1>LOGIN</h1>
-                    <small className="form-caption">Sign up for an account today to start viewing and saving stocks.</small>
+                    <p className="form-caption">Sign up for an account today to start viewing and saving stocks.</p>
 
                     <Formik
                         initialValues={{ 
@@ -79,11 +79,9 @@ class Login extends React.Component {
                 <style jsx>{`
 
                     h1 {
-                        font-size: 50px;
                         margin-bottom: 20px;
                         width: 100%;
                         text-align: center;
-                        color: rgb(22, 50, 92);
                     }
 
                     .login-container {
@@ -97,28 +95,6 @@ class Login extends React.Component {
 
                     .login-form {
                         margin-top: 20px;
-                    }
-
-                    .error-alert {
-                        margin-left: 10px;
-                        color: red;
-                    }
-
-                    .form-caption {
-                        color: rgb(191, 67, 27);
-                    }
-
-                    .login-btn {
-                        border: 2px solid #9e85fc;
-                        border-radius: 4px;
-                        padding: 10px 20px;
-                        margin: 20px 0;
-                        background-color: #f93e60;
-                    }
-
-                    .login-btn:hover {
-                        background-color: rgba(0,0,0,0);
-                        cursor: pointer;
                     }
                 `}</style>
             </div>

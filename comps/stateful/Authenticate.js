@@ -33,7 +33,7 @@ class Authenticate extends React.Component {
         return (
             <div className="auth-container">
                     <h1>REGISTER</h1>
-                    <small className="form-caption">Sign up for an account today to start viewing and saving stocks.</small>
+                    <p className="form-caption">Sign up for an account today to start viewing and saving stocks.</p>
 
                     <Formik
                         initialValues={{ 
@@ -83,11 +83,9 @@ class Authenticate extends React.Component {
                 <style jsx>{`
 
                     h1 {
-                        font-size: 50px;
                         margin-bottom: 20px;
                         width: 100%;
                         text-align: center;
-                        color: rgb(22, 50, 92);
                     }
 
                     .auth-container {
@@ -101,28 +99,6 @@ class Authenticate extends React.Component {
 
                     .auth-form {
                         margin-top: 20px;
-                    }
-
-                    .error-alert {
-                        margin-left: 10px;
-                        color: red;
-                    }
-
-                    .form-caption {
-                        color: rgb(191, 67, 27);
-                    }
-
-                    .submit-btn {
-                        border: 2px solid #5194ff;
-                        border-radius: 4px;
-                        padding: 10px 20px;
-                        margin: 20px 0;
-                        background-color: #2a7afc;
-                    }
-
-                    .submit-btn:hover {
-                        background-color: rgba(0,0,0,0);
-                        cursor: pointer;
                     }
                 `}</style>
             </div>
