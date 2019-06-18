@@ -17,19 +17,21 @@ const userSchema = yup.object().shape({
       margin: "15px 0"
   };
 
-class Authenticate extends React.Component {
+class Login extends React.Component {
     constructor(props){
         super(props);
     }
 
-    moveToLogin = () => {
+    moveToReg = () => {
         this.props.redirect();
     }
 
+
     render(){
+
         return (
-            <div className="auth-container">
-                    <h1>REGISTER</h1>
+            <div className="login-container">
+                    <h1>LOGIN</h1>
                     <small className="form-caption">Sign up for an account today to start viewing and saving stocks.</small>
 
                     <Formik
@@ -42,39 +44,36 @@ class Authenticate extends React.Component {
                                 values.email === 'test@test.io' ? actions.setErrors({email: 'That email has been taken.'}) : actions.resetForm()
                                 actions.setSubmitting(false);
                             }, 1500);
-                            setTimeout(() => this.moveToLogin(), 2000);
                         }}
                         validationSchema={userSchema}
                     >
-                        {
-                            formikProps => (
-                                <Form className="auth-form">
-                                    <Field 
-                                        type="email" 
-                                        name="email"
-                                        placeholder="Email"
-                                        onChange={formikProps.handleChange("email")}
-                                        style={formikField}
-                                    />
-                                    <ErrorMessage name="email" render={msg => <small className="error-alert">{msg}</small>}/><br/>
+                        {formikProps => (
+                            <Form className="login-form">
+                                <Field 
+                                    type="email" 
+                                    name="email"
+                                    placeholder="Email"
+                                    onChange={formikProps.handleChange("email")}
+                                    style={formikField}
+                                />
+                                <ErrorMessage name="email" render={msg => <small className="error-alert">{msg}</small>}/><br/>
 
-                                    <Field 
-                                        type="password" 
-                                        name="password"
-                                        placeholder="Password"
-                                        onChange={formikProps.handleChange("pass")}
-                                        style={formikField}
-                                    />
-                                    <ErrorMessage name="password" render={msg => <small>{msg}</small>}/><br/>
+                                <Field 
+                                    type="password" 
+                                    name="password"
+                                    placeholder="Password"
+                                    onChange={formikProps.handleChange("pass")}
+                                    style={formikField}
+                                />
+                                <ErrorMessage name="password" render={msg => <small>{msg}</small>}/><br/>
 
-                                    <small><a onClick={this.moveToLogin}>Already have an account? Log in.</a></small><br/>
+                                <small><a onClick={this.moveToReg}>Need an account? Register here.</a></small><br/>
 
-                                    <button type="submit" disabled={formikProps.isSubmitting} className="submit-btn">
-                                        Submit
-                                    </button>
-                                </Form>
-                            )
-                        }
+                                <button type="submit" disabled={formikProps.isSubmitting} className="login-btn">
+                                    Log In
+                                </button>
+                            </Form>
+                        )}
                     </Formik>
 
                 <style jsx>{`
@@ -87,7 +86,7 @@ class Authenticate extends React.Component {
                         color: rgb(22, 50, 92);
                     }
 
-                    .auth-container {
+                    .login-container {
                         border: 1px solid grey;
                         border-radius: 5px;
                         box-shadow: -5px 5px 8px rgb(0, 0, 0, 0.2);
@@ -96,7 +95,7 @@ class Authenticate extends React.Component {
                         margin: 0 auto;
                     }
 
-                    .auth-form {
+                    .login-form {
                         margin-top: 20px;
                     }
 
@@ -109,15 +108,15 @@ class Authenticate extends React.Component {
                         color: rgb(191, 67, 27);
                     }
 
-                    .submit-btn {
-                        border: 2px solid #5194ff;
+                    .login-btn {
+                        border: 2px solid #9e85fc;
                         border-radius: 4px;
                         padding: 10px 20px;
                         margin: 20px 0;
-                        background-color: #2a7afc;
+                        background-color: #f93e60;
                     }
 
-                    .submit-btn:hover {
+                    .login-btn:hover {
                         background-color: rgba(0,0,0,0);
                         cursor: pointer;
                     }
@@ -127,4 +126,4 @@ class Authenticate extends React.Component {
     }
 }
 
-export default Authenticate;
+export default Login;

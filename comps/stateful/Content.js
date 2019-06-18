@@ -12,8 +12,8 @@ class Content extends React.Component {
     }
 
     /**
-     * Makes API call and returns a promise. This function is executed
-     * when the component is mounted.
+     * This function is executed when the component is mounted.
+     * It makes an API call and returns a promise which will eventually update the component state.
      * @returns {object} data - A promise to be resolved.
      */
     fetchData = async () => {
@@ -101,7 +101,7 @@ class Content extends React.Component {
                     `
                 }</style>
                 {
-                    // Render dynamic styles from dynamicStyles function
+                    // Render dynamic styles from dynamicStyles.
                     this.renderDynamicStyles()
                 }
             </div>
