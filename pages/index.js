@@ -1,10 +1,6 @@
 import Layout from '../containers/Layout';
 import Authenticate from '../comps/stateful/Authenticate';
 import Login from '../comps/stateful/Login';
-import Link from 'next/link';
-
-
-const stock = "AAPL";
 
 
 class Index extends React.Component {
@@ -22,6 +18,7 @@ class Index extends React.Component {
             renderReg: false
         });
     }
+
     redirectToReg = () => {
         this.setState({
             renderReg: true
@@ -31,14 +28,11 @@ class Index extends React.Component {
     render() {
         return (
             <Layout>
-                { this.state.renderReg ? <Authenticate redirect={this.redirectToLogin}/> : <Login redirect={this.redirectToReg}/>}
-                <ul>
-                    <li key={`${stock.toLowerCase()}`}>
-                        <Link as={`/stock/${stock}`} href={`/post?id=${stock}`}>
-                            <a>{stock}</a>
-                        </Link>
-                    </li>
-                </ul>
+                { 
+                    this.state.renderReg ? 
+                    <Authenticate redirect={this.redirectToLogin}/> : 
+                    <Login redirect={this.redirectToReg}/>
+                }
             </Layout>
         )
     }

@@ -5,6 +5,7 @@ const navMenu = [
     ["/about", "About"],
     ["/login", "Login"],
     ["/register", "Register"],
+    ["/dashboard", "Dashboard"]
 ];
 
 const Header = () => (

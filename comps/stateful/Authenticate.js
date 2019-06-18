@@ -1,25 +1,28 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
-const userSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email('This email is not valid.')
-      .required('A valid email is required.'),
-    pass: yup
-      .string('Email not valid')
-      .min(9, 'Password must be 9 characters or longer.')
-      .required('A valid password is required.')
-  });
-
-  const formikField = {
-      width: "100%",
-      margin: "15px 0"
-  };
 
 class Authenticate extends React.Component {
     constructor(props){
         super(props);
+
+        this.userSchema = yup.object().shape({
+            email: yup
+              .string()
+              .email('That email is not valid.')
+              .required('A valid email is required.'),
+            pass: yup
+              .string('Email not valid')
+              .min(9, 'Password must be 9 characters or longer.')
+              .required('A valid password is required.')
+          }),
+        this.formikStyles = {
+            field: {
+                width: "100%",
+                margin: "15px 0"
+            }
+        }
+        
     }
 
     moveToLogin = () => {
@@ -44,7 +47,7 @@ class Authenticate extends React.Component {
                             }, 1500);
                             setTimeout(() => this.moveToLogin(), 2000);
                         }}
-                        validationSchema={userSchema}
+                        validationSchema={this.userSchema}
                     >
                         {
                             formikProps => (
@@ -54,7 +57,7 @@ class Authenticate extends React.Component {
                                         name="email"
                                         placeholder="Email"
                                         onChange={formikProps.handleChange("email")}
-                                        style={formikField}
+                                        style={this.formikStyles.field}
                                     />
                                     <ErrorMessage name="email" render={msg => <small className="error-alert">{msg}</small>}/><br/>
 
@@ -63,7 +66,7 @@ class Authenticate extends React.Component {
                                         name="password"
                                         placeholder="Password"
                                         onChange={formikProps.handleChange("pass")}
-                                        style={formikField}
+                                        style={this.formikStyles.field}
                                     />
                                     <ErrorMessage name="password" render={msg => <small>{msg}</small>}/><br/>
 
