@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
-const navMenu = [
+export const navMenu = [
     ["/", "Home"],
     ["/about", "About"],
-    ["/login", "Login"],
-    ["/register", "Register"],
-    ["/dashboard", "Dashboard"]
+    ["/dashboard", "Dashboard"],
+    ["/account", "Account"]
 ];
 
 const Header = () => (
@@ -13,8 +12,8 @@ const Header = () => (
         <div className="nav-menu">
             <ul>
                 {
-                    navMenu.map(item =>
-                        <li>
+                    navMenu.map((item, index) =>
+                        <li key={`${item}-${index}`}>
                             <Link href={item[0]}>
                                 <a>{item[1]}</a>
                             </Link>
@@ -24,52 +23,19 @@ const Header = () => (
             </ul>
         </div>
 
-        <style jsx global>{`
-                    p {
-                        color: green;
-                    }
-
-                    h1 {
-                        font-size: 50px;
-                        color: rgb(22, 50, 92);
-                    }
-
-                    .form-caption {
-                        color: rgb(191, 67, 27);
-                    }
-
-                    .error-alert {
-                        margin-left: 10px;
-                        color: red;
-                    }
-
-                    .submit-btn {
-                        border: 2px solid #5194ff;
-                        border-radius: 4px;
-                        padding: 10px 20px;
-                        margin: 20px 0;
-                        background-color: #2a7afc;
-                    }
-
-                    .login-btn:hover,
-                    .submit-btn:hover {
-                        background-color: rgba(0,0,0,0);
-                        cursor: pointer;
-                    }
-
-                    .login-btn {
-                        border: 2px solid #9e85fc;
-                        border-radius: 4px;
-                        padding: 10px 20px;
-                        margin: 20px 0;
-                        background-color: #f93e60;
-                    }
-                `}</style>
         <style jsx>{`
+
+            a {
+                font-size: 20px;
+                text-decoration: none;
+                color: white;
+            }
+
             .navigation {
                 background: #333;
                 width: 100%;
                 padding: 20px 0;
+                box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
             }
 
             .nav-menu {

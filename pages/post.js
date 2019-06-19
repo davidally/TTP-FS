@@ -4,7 +4,7 @@ import { withRouter } from 'next/router';
 
 const Page = withRouter(props => (
     <Layout>
-        <Content itemdata={props.router.query.id}/>
+        <Content name={props.router.query.id} inputData={props.router.query.data}/>
     </Layout>
 ));
 

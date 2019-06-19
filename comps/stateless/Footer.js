@@ -1,14 +1,19 @@
 import Link from 'next/link';
-
-const footerStyles = {
-    marginTop: 20,
-    paddingTop: 20,
-    borderTop: "1px solid black"
-}
+import { navMenu } from './Header';
 
 const Footer = () => (
-    <div style={footerStyles}>
-        <Link href="/"><a>Home</a></Link>
+    <div>
+        <ul>
+            {
+                navMenu.map((item, index) =>
+                    <li key={`${item}-${index}`}>
+                        <Link href={item[0]}>
+                            <a>{item[1]}</a>
+                        </Link>
+                    </li>
+                )
+            }
+        </ul>
     </div>
 );
 

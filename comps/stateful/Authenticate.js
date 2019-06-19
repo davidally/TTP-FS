@@ -1,7 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
-
 class Authenticate extends React.Component {
     constructor(props){
         super(props);
