@@ -2,24 +2,15 @@ class Content extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            mounted: false
-        };
-    }
-
-    componentDidMount() {
-        this.setState({
-            mounted: true
-        });
     }
 
     /**
      * This function renders the stock data points if the stock is set in state.
      * @returns listItems - Returns JSX tags which contain the data.
      */
-    renderData = () => {
+    renderDataTable = () => {
         return Object.entries(this.props.data.financials[0]).map((item, index) => (
-                <tr key={`${item}-${index}`}>
+                <tr className="data-row" key={`${item}-${index}`}>
                     <td className="list-item">{`${item[0].toUpperCase()}`}</td>
                     <td className="list-item">{`${item[1]}`}</td>
                 </tr>
@@ -27,31 +18,15 @@ class Content extends React.Component {
         );
     }
 
-    /**
-     * This function creates a dynamic styles block which is separate from the static
-     * styles. All dynamic styling after the component renders should be placed here.
-     */
-    renderDynamicStyles = () => {
-        if (this.state.mounted == true){
-            return (
-                `
-                tr:nth-child(odd) {
-                    background-color: 'grey';
-                }
-                `
-            );
-        }
-    }
-
     render() {
         return (
             <div>
                 <small>All data provided by the IPEX.</small>
-                <h1>{this.props.name}</h1>
+                <h1>{this.props.data.symbol}</h1>
                 <div className="stock-data">
                     <table>
                         <tbody>
-                            {this.renderData()}
+                            {this.renderDataTable()}
                         </tbody>
                     </table>
                 </div>
@@ -72,14 +47,12 @@ class Content extends React.Component {
                         color: #474747;
                         background-color: #efefef;
                     }
+
+                    .data-row {
+                        background-color: grey;
+                    }
                     `
                 }</style>
-                <style>
-                    {
-                        // Render dynamic styles from dynamicStyles.
-                        this.renderDynamicStyles()
-                    }
-                </style>
             </div>
         );
     }
