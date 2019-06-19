@@ -8,13 +8,13 @@ const handle = app.getRequestHandler();
 app
     .prepare()
     .then(() => {
-        const server = express();
+        const server = express();-
 // Mapping custom route and params to post
         server.get('/stock/:id', (req, res) => {
+            console.log(req);
             const actualPage = '/post';
             const queryParams = { 
-                id: req.params.id,
-                data: req.params.data
+                id: req.params.id
              };
             app.render(req, res, actualPage, queryParams);
         });

@@ -18,19 +18,13 @@ class Content extends React.Component {
      * @returns listItems - Returns JSX tags which contain the data.
      */
     renderData = () => {
-        let listItems;
-        // const deSerialized = JSON.parse(this.props.inputData);
-        if (typeof(deSerialized) === 'object'){
-            listItems = Object.entries(deSerialized.financials[0]).map((item, index) => {
-                return (
-                    <tr key={`${item}-${index}`}>
-                        <td className="list-item">{`${item[0].toUpperCase()}`}</td>
-                        <td className="list-item">{`${item[1]}LOLOL`}</td>
-                    </tr>
-                );
-            });
-        }
-        return listItems;
+        return Object.entries(this.props.data.financials[0]).map((item, index) => (
+                <tr key={`${item}-${index}`}>
+                    <td className="list-item">{`${item[0].toUpperCase()}`}</td>
+                    <td className="list-item">{`${item[1]}`}</td>
+                </tr>
+            )
+        );
     }
 
     /**
@@ -40,17 +34,16 @@ class Content extends React.Component {
     renderDynamicStyles = () => {
         if (this.state.mounted == true){
             return (
-                <style jsx>{`
-                    tr:nth-child(odd) {
-                        background-color: ${this.state.mounted === true ? 'grey' : 'black'};
-                    }
-                `}</style>
+                `
+                tr:nth-child(odd) {
+                    background-color: 'grey';
+                }
+                `
             );
         }
     }
 
     render() {
-
         return (
             <div>
                 <small>All data provided by the IPEX.</small>
@@ -81,10 +74,12 @@ class Content extends React.Component {
                     }
                     `
                 }</style>
-                {
-                    // Render dynamic styles from dynamicStyles.
-                    this.renderDynamicStyles()
-                }
+                <style>
+                    {
+                        // Render dynamic styles from dynamicStyles.
+                        this.renderDynamicStyles()
+                    }
+                </style>
             </div>
         );
     }
