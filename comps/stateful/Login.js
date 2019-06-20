@@ -42,7 +42,17 @@ class Login extends React.Component {
                         }}
                         onSubmit={(values, actions) => {
                             setTimeout( () => {
-                                values.email === 'test@test.io' ? actions.setErrors({email: 'That email has been taken.'}) : actions.resetForm()
+                                fetch('/api/login', {
+                                    method: 'post',
+                                    headers: {
+                                        'Accept': 'application/json, text/plain, */*',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(values)
+                                }).then((res) => {
+                                    res.status == 200 ? this.setState({submitted: true}) : ''
+                                })
+
                                 actions.setSubmitting(false);
                             }, 1500);
                         }}

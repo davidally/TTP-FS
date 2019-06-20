@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import fetch from 'isomorphic-unfetch';
 
 class Authenticate extends React.Component {
     constructor(props){
@@ -40,8 +41,19 @@ class Authenticate extends React.Component {
                             pass: ''
                         }}
                         onSubmit={(values, actions) => {
+                            // Send registration data to server for processing
                             setTimeout( () => {
-                                values.email === 'test@test.io' ? actions.setErrors({email: 'That email has been taken.'}) : actions.resetForm()
+                                fetch('/api/register', {
+                                    method: 'post',
+                                    headers: {
+                                        'Accept': 'application/json, text/plain, */*',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(values)
+                                }).then((res) => {
+                                    res.status == 200 ? this.setState({submitted: true}) : ''
+                                })
+
                                 actions.setSubmitting(false);
                             }, 1500);
                             setTimeout(() => this.moveToLogin(), 2000);
