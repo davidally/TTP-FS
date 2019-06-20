@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
@@ -50,7 +51,7 @@ class Login extends React.Component {
                                     },
                                     body: JSON.stringify(values)
                                 }).then((res) => {
-                                    res.status == 200 ? this.setState({submitted: true}) : ''
+                                    res.status == 200 ? Router.push('/dashboard') : ''
                                 })
 
                                 actions.setSubmitting(false);
