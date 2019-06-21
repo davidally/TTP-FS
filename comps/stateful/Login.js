@@ -50,11 +50,26 @@ class Login extends React.Component {
                                         'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify(values)
-                                }).then((res) => {
-                                    res.status == 200 ? Router.push({
+                                })
+                                .then(res => {
+                                    if (res.status === 200){
+                                        this.setState({
+                                            nextPagePermission: true
+                                        })
+                                    }
+                                    return res.json()
+                                })
+                                .then((data) => {
+                                    console.log(data.userAcc);
+                                    this.state.nextPagePermission === true ? Router.push({
                                         pathname: '/dashboard',
-                                        query: res.body
-                                    }) : ''
+                                        query: data.userAcc
+                                    }) : actions.setErrors({
+                                        email: 'That email was not found.'
+                                    })
+                                })
+                                .catch(err => {
+                                    console.log(err);
                                 })
 
                                 actions.setSubmitting(false);

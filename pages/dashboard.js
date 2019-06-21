@@ -10,6 +10,7 @@ class Dashboard extends React.Component {
 
     static async getInitialProps(ctx) {
         let test = ctx.query
+        // console.log(test);
         return {fakeProp: test}
     }
 

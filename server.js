@@ -56,8 +56,18 @@ app
             User.find({email: id})
             .exec()
             .then(item => {
+                // Send back 200 if user is found in database and authenticate
                 console.log(item);
-                res.status(200).json(item);
+                if (item) {
+                    res.status(200).json({
+                        message: 'Data successfully fetched!',
+                        userAcc: item
+                    });
+                } else {
+                    res.status(404).json({
+                        message: 'No valid entry could be found.'
+                    });
+                }
             })
             .catch(err => {
                 console.log(err);
