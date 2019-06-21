@@ -51,7 +51,10 @@ class Login extends React.Component {
                                     },
                                     body: JSON.stringify(values)
                                 }).then((res) => {
-                                    res.status == 200 ? Router.push('/dashboard') : ''
+                                    res.status == 200 ? Router.push({
+                                        pathname: '/dashboard',
+                                        query: res.body
+                                    }) : ''
                                 })
 
                                 actions.setSubmitting(false);

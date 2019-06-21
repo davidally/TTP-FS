@@ -26,27 +26,42 @@ app
 
         // Register Account
         server.post('/api/register', (req, res) => {
-            const { email, pass } = req.body
             // Create new user and log to db
-            const enterUser = new User();
-            enterUser.email = email; 
-            enterUser.password = pass;
-            enterUser.save(err => {
-                err ? console.log(err) : 'Data has been saved!'
+            const userProfile = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.pass
             });
-            res.send('success')
+            userProfile
+            .save()
+            .then(feedback => {
+                console.log(feedback);
+                res.status(201).json({
+                    message: 'Post request went through.',
+                    newUser: userProfile
+                });   
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                })
+            })
+
         });
 
         // User Login
         server.post('/api/login', (req, res) => {
-            User.find(req.body, (err, user) => {
-                if (err){
-                    console.log(err);
-                    res.status(500).send(err);
-                } else {
-                    console.log(user);
-                    res.status(200).send(user);
-                }
+            const id = req.body.email
+            User.find({email: id})
+            .exec()
+            .then(item => {
+                console.log(item);
+                res.status(200).json(item);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({error: err});
             })
         });
 

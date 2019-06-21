@@ -8,6 +8,11 @@ class Dashboard extends React.Component {
         super(props);
     }
 
+    static async getInitialProps(ctx) {
+        let test = ctx.query
+        return {fakeProp: test}
+    }
+
     render() {
         return (
             <Layout>
