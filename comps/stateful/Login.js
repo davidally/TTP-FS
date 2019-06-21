@@ -53,7 +53,11 @@ class Login extends React.Component {
                                     body: JSON.stringify(values)
                                 })
                                 .then(res => {
-                                    // If the server returns OK set the state and pass data for next step
+                                    /**
+                                     * If the server returns OK then change the state allowing
+                                     * the router to redirect to the next page, while passing data to the
+                                     * next step in the sequence.
+                                     */
                                     if (res.status === 200){
                                         this.setState({
                                             nextPagePermission: true
@@ -63,14 +67,19 @@ class Login extends React.Component {
                                         actions.setErrors({
                                             email: 'That email was not found.'
                                         });
+                                        return actions.resetForm();
                                     }
                                 })
                                 .then((data) => {
-                                    // Reroute to the dashboard
+                                    console.log(data);
+                                    // Reroute to the dashboard, second push arg masks url
                                     this.state.nextPagePermission === true ? Router.push({
-                                        pathname: '/dashboard',
-                                        query: data.userAcc
-                                    }) : ''
+                                        pathname: '/account',
+                                        query: {
+                                            accName: data.userAcc[0].name,
+                                            email: data.userAcc[0].email
+                                        }
+                                    }, '/account/welcome') : ''
                                 })
                                 .catch(err => {
                                     console.log(err);

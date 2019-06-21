@@ -35,7 +35,6 @@ app
             userProfile
             .save()
             .then(feedback => {
-                console.log(feedback);
                 res.status(201).json({
                     message: 'Post request went through.',
                     newUser: userProfile
@@ -57,7 +56,6 @@ app
             .exec()
             .then(item => {
                 // Send back 200 if user is found in database and authenticate
-                console.log(item);
                 if (item) {
                     res.status(200).json({
                         message: 'Data successfully fetched!',
