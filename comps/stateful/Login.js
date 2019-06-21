@@ -43,6 +43,7 @@ class Login extends React.Component {
                         }}
                         onSubmit={(values, actions) => {
                             setTimeout( () => {
+                                // Post data to login route
                                 fetch('/api/login', {
                                     method: 'post',
                                     headers: {
@@ -52,21 +53,24 @@ class Login extends React.Component {
                                     body: JSON.stringify(values)
                                 })
                                 .then(res => {
+                                    // If the server returns OK set the state and pass data for next step
                                     if (res.status === 200){
                                         this.setState({
                                             nextPagePermission: true
-                                        })
+                                        });
+                                        return res.json();
+                                    } else {
+                                        actions.setErrors({
+                                            email: 'That email was not found.'
+                                        });
                                     }
-                                    return res.json()
                                 })
                                 .then((data) => {
-                                    console.log(data.userAcc);
+                                    // Reroute to the dashboard
                                     this.state.nextPagePermission === true ? Router.push({
                                         pathname: '/dashboard',
                                         query: data.userAcc
-                                    }) : actions.setErrors({
-                                        email: 'That email was not found.'
-                                    })
+                                    }) : ''
                                 })
                                 .catch(err => {
                                     console.log(err);
