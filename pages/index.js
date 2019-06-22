@@ -1,5 +1,5 @@
 import Layout from '../containers/Layout';
-import Authenticate from '../comps/stateful/Authenticate';
+import Register from '../comps/stateful/Register';
 import Login from '../comps/stateful/Login';
 
 
@@ -30,7 +30,7 @@ class Index extends React.Component {
             <Layout>
                 { 
                     this.state.renderReg ? 
-                    <Authenticate redirect={this.redirectToLogin}/> : 
+                    <Register redirect={this.redirectToLogin}/> : 
                     <Login redirect={this.redirectToReg}/>
                 }
             </Layout>

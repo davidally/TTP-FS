@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import fetch from 'isomorphic-unfetch';
 
-class Authenticate extends React.Component {
+class Register extends React.Component {
     constructor(props){
         super(props);
 
@@ -37,6 +37,7 @@ class Authenticate extends React.Component {
 
                     <Formik
                         initialValues={{ 
+                            name: '',
                             email: '',
                             pass: ''
                         }}
@@ -51,18 +52,31 @@ class Authenticate extends React.Component {
                                     },
                                     body: JSON.stringify(values)
                                 }).then((res) => {
-                                    res.status == 200 ? this.setState({submitted: true}) : ''
+                                    res.status == 201 ? this.moveToLogin() : ''
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                    actions.setErrors({
+                                        generalError: "Something went wrong when registering..."
+                                    })
                                 })
 
                                 actions.setSubmitting(false);
                             }, 1500);
-                            setTimeout(() => this.moveToLogin(), 2000);
                         }}
                         validationSchema={this.userSchema}
                     >
                         {
                             formikProps => (
                                 <Form className="auth-form">
+                                    <ErrorMessage name="generalError" render={msg => <small className="error-alert">{msg}</small>}/><br/>
+                                    <Field 
+                                        type="text" 
+                                        name="name"
+                                        placeholder="Name"
+                                        onChange={formikProps.handleChange("name")}
+                                        style={this.formikStyles.field}
+                                    />
                                     <Field 
                                         type="email" 
                                         name="email"
@@ -117,4 +131,4 @@ class Authenticate extends React.Component {
     }
 }
 
-export default Authenticate;
+export default Register;

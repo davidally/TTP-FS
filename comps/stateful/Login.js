@@ -44,7 +44,7 @@ class Login extends React.Component {
                         onSubmit={(values, actions) => {
                             setTimeout( () => {
                                 // Post data to login route
-                                fetch('/api/login', {
+                                fetch('/api/authenticate', {
                                     method: 'post',
                                     headers: {
                                         'Accept': 'application/json, text/plain, */*',
@@ -54,32 +54,23 @@ class Login extends React.Component {
                                 })
                                 .then(res => {
                                     /**
-                                     * If the server returns OK then change the state allowing
-                                     * the router to redirect to the next page, while passing data to the
-                                     * next step in the sequence.
+                                     * If user is authenticated by server, reroute to the account page
+                                     * with token.
                                      */
                                     if (res.status === 200){
-                                        this.setState({
-                                            nextPagePermission: true
-                                        });
-                                        return res.json();
+                                        Router.push({
+                                            pathname: '/account'
+                                            // query: {
+                                            //     accName: data.userAcc[0].name,
+                                            //     email: data.userAcc[0].email
+                                            // }
+                                        }, '/account/welcome');
                                     } else {
                                         actions.setErrors({
                                             email: 'That email was not found.'
                                         });
                                         return actions.resetForm();
                                     }
-                                })
-                                .then((data) => {
-                                    console.log(data);
-                                    // Reroute to the dashboard, second push arg masks url
-                                    this.state.nextPagePermission === true ? Router.push({
-                                        pathname: '/account',
-                                        query: {
-                                            accName: data.userAcc[0].name,
-                                            email: data.userAcc[0].email
-                                        }
-                                    }, '/account/welcome') : ''
                                 })
                                 .catch(err => {
                                     console.log(err);
