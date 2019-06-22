@@ -53,24 +53,29 @@ class Login extends React.Component {
                                     body: JSON.stringify(values)
                                 })
                                 .then(res => {
+                                    return res.text();
+                                })
+                                .then(data => {
+                                    console.log(data, "testtext");
                                     /**
                                      * If user is authenticated by server, reroute to the account page
                                      * with token.
                                      */
-                                    if (res.status === 200){
-                                        Router.push({
-                                            pathname: '/account'
-                                            // query: {
-                                            //     accName: data.userAcc[0].name,
-                                            //     email: data.userAcc[0].email
-                                            // }
-                                        }, '/account/welcome');
-                                    } else {
-                                        actions.setErrors({
-                                            email: 'That email was not found.'
-                                        });
-                                        return actions.resetForm();
-                                    }
+                                    // if (res.status === 200){
+                                    //     console.log(res.json());
+                                    //     Router.push({
+                                    //         pathname: '/account'
+                                    //         // query: {
+                                    //         //     accName: data.userAcc[0].name,
+                                    //         //     email: data.userAcc[0].email
+                                    //         // }
+                                    //     }, '/account/welcome');
+                                    // } else {
+                                    //     actions.setErrors({
+                                    //         email: 'That email was not found.'
+                                    //     });
+                                    //     return actions.resetForm();
+                                    // }
                                 })
                                 .catch(err => {
                                     console.log(err);

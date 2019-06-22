@@ -6,9 +6,7 @@ class Account extends React.Component {
     }
 
     static async getInitialProps(ctx) {
-        const reqs = ctx.req;
-        console.log(reqs);
-        const account = ctx.query;
+        const account = ctx.res.json();
         return {account};
     }
 

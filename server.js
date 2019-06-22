@@ -63,13 +63,13 @@ app
             User.findOne({ email }, (err, user) =>{
                 if (err) {
                     console.log(err);
-                    res.status(500).json({error: 'ERR: Internal error, try again.'});
+                    res.status(500).json({error: 'ERR: Internal error, try again. (A)'});
                 } else if (!user){
                     res.status(401).json({error: 'Incorrect email or password.'});
                 } else {
                     user.isCorrectPassword(pass, function(err, same){
                         if (err) {
-                            res.status(500).json({error: 'ERR: Internal error, try again.'});
+                            res.status(500).json({error: 'ERR: Internal error, try again. (B)'});
                         } else if (!same) {
                             res.status(401).json({error: 'Your password was incorrect.'});
                         } else {
@@ -77,11 +77,18 @@ app
                             const token = jwt.sign(payload, secret, {
                                 expiresIn: '1h'
                             });
-                            console.log('USER HAS BEEN AUTHENTICATED!');
+                            console.log('USER HAS BEEN AUTHENTICATED!\n');
+                            // Add .sendStatus(200) to cookie set
                             res.cookie('token', token, { httpOnly: true}).sendStatus(200);
                         }
                     });
                 }
+            })
+            .exec()
+            .then(item => {
+                console.log("RUNNING TESTING...\n");
+                res.body = {name: item.name};
+                console.log(res.body);
             })
             .catch(err => {
                 console.log(err);
