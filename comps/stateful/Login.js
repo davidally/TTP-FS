@@ -2,6 +2,10 @@ import Router from 'next/router';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
+/**
+ * @TODO Make this and register into containers in order to 
+ * separate the Formik logic from the rest of the component.
+ */
 class Login extends React.Component {
     constructor(props){
         super(props);
@@ -53,6 +57,7 @@ class Login extends React.Component {
                                     body: JSON.stringify(values)
                                 })
                                 .then(res => {
+                                    console.log(res.body.name);
                                     /**
                                      * If user is authenticated by server, reroute to the account page
                                      * with token.
@@ -60,7 +65,7 @@ class Login extends React.Component {
                                     if (res.status === 200){
                                         Router.push({
                                             pathname: '/dashboard'
-                                        });
+                                        }, '/dashboard/welcome');
                                     } else {
                                         actions.setErrors({
                                             email: 'That email was not found.'

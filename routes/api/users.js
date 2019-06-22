@@ -54,6 +54,13 @@ router.post('/api/register', (req, res) => {
 // User Login
 router.post('/api/authenticate', (req, res) => {
     const { email, pass } = req.body
+    let setBody;
+    /**
+     * Mongoose queries are executed asynchronously if passing a callback.
+     * The chain is continued past initial block via exec and then.
+     * This is when the query is finished and initial callback
+     * is finally executed. 
+     */
     User.findOne({ email }, (err, user) =>{
         if (err) {
             console.log(err);
@@ -67,16 +74,26 @@ router.post('/api/authenticate', (req, res) => {
                 } else if (!same) {
                     res.status(401).json({error: 'Your password was incorrect.'});
                 } else {
+                    console.log('\nUSER HAS BEEN AUTHENTICATED!\n');
                     // Perform auth in this block
                     const payload = { email };
+                    // JWT async sign
                     const token = jwt.sign(payload, secret, {
                         expiresIn: '1h'
                     });
-                    console.log('\nUSER HAS BEEN AUTHENTICATED!\n');
-                    res.cookie('token', token, { httpOnly: true}).sendStatus(200);
+                    /**
+                     * Set cookie property Secure to true in order to use HTTPS.
+                     * Cookie sets HTTP headers and so will be the end of the response chain.
+                     */
+                    console.log('Response body set:', setBody);
+                    res.cookie('token', token, { httpOnly: true}).status(200).send({name: setBody});
                 }
             });
         }
+    })
+    .exec()
+    .then(data => {
+        setBody = data.name
     })
     .catch(err => {
         console.log(err);

@@ -4,7 +4,7 @@ import Link from 'next/link';
 const stock = "AAPL";
 
 class Dashboard extends React.Component {
-    static async getInitialProps(){
+    static async getInitialProps({req}){
         const baseURL = req ? `${req.protocol}://${req.get("Host")}` : "";
         const res = await fetch(`${baseURL}/api/access`);
         const data = await res.json();
@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
     render() {
         return (
             <Layout>
-                <h1>Global style test</h1>
+                <h1>Welcome back {this.props.data.xyz}</h1>
                 <ul>
                     <li key={`${stock.toLowerCase()}`}>
                         <Link as={`/stock/${stock}`} href={`/post?id=${stock}`}>
