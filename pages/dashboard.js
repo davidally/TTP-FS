@@ -4,12 +4,14 @@ import Link from 'next/link';
 const stock = "AAPL";
 
 class Dashboard extends React.Component {
-    constructor(props){
-        super(props);
+    static async getInitialProps(){
+        const baseURL = req ? `${req.protocol}://${req.get("Host")}` : "";
+        const res = await fetch(`${baseURL}/api/access`);
+        const data = await res.json();
+        return {data}
     }
 
     render() {
-        {console.log(this.props)}
         return (
             <Layout>
                 <h1>Global style test</h1>
