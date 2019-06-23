@@ -103,6 +103,7 @@ class Register extends React.Component {
                 <style jsx>{`
 
                     h1 {
+                        font-size: 60px;
                         margin-bottom: 20px;
                         width: 100%;
                         text-align: center;

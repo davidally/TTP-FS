@@ -55,8 +55,7 @@ class Login extends React.Component {
                                 })
                                 .then(data => {
                                     Router.push({
-                                        pathname: '/dashboard',
-                                        query: {name: data.name}
+                                        pathname: '/dashboard'
                                     }, '/dashboard/welcome');
                                 })
                                 .catch(err => {
@@ -99,6 +98,7 @@ class Login extends React.Component {
                 <style jsx>{`
 
                     h1 {
+                        font-size: 60px;
                         margin-bottom: 20px;
                         width: 100%;
                         text-align: center;

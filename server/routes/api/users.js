@@ -7,10 +7,6 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-router.get('/api/access', sessionAuth, (req, res) => {
-    res.sendStatus(200);
-});
-
 // Register Account
 router.post('/api/register', (req, res) => {
     // Create new user and log to db
@@ -35,16 +31,16 @@ router.post('/api/register', (req, res) => {
 
 });
 
-// User Login
+/**
+ * User Login
+ * Mongoose queries are executed asynchronously if passing a callback.
+ * The chain is continued past initial block (acts as pending) via exec and then.
+ * This is when the query is finished and initial callback
+ * is finally executed. 
+ */
 router.post('/api/authenticate', (req, res) => {
     const { email, pass } = req.body
     let setBody;
-    /**
-     * Mongoose queries are executed asynchronously if passing a callback.
-     * The chain is continued past initial block (acts as pending) via exec and then.
-     * This is when the query is finished and initial callback
-     * is finally executed. 
-     */
     User.findOne({ email }, (err, user) =>{
         if (err) {
             console.log(err);
@@ -58,20 +54,34 @@ router.post('/api/authenticate', (req, res) => {
                 } else if (!same) {
                     res.status(401).json({error: 'Your password was incorrect.'});
                 } else {
-                    console.log('\nUSER HAS BEEN AUTHENTICATED!\n');
-                    // Perform auth in this block
-                    res.status(200).send({name: setBody});
+                    // Identify user by their ID and share with session
+                    // console.log('\nUSER HAS BEEN AUTHENTICATED!\n');
+                    req.session.userId = setBody;
+                    res.status(200).send({name: "setBody"});
                 }
             });
         }
     })
     .exec()
     .then(data => {
-        setBody = data.name
+        setBody = data._id;
     })
     .catch(err => {
         console.log(err);
     })
 });
+
+router.get('/logout', function(req, res, next) {
+    if (req.session) {
+      // delete session object
+      req.session.destroy(function(err) {
+        if(err) {
+          return next(err);
+        } else {
+          return res.redirect('/');
+        }
+      });
+    }
+  });
 
 module.exports = router;

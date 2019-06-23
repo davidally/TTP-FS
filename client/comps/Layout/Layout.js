@@ -7,7 +7,7 @@ const Layout = (props) => (
         <Head>
             <title>Stockfolio - Buy Stocks</title>
             <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css"/>
-            <link href="https://fonts.googleapis.com/css?family=Muli|Open+Sans&display=swap" rel="stylesheet" /> 
+            <link href="https://fonts.googleapis.com/css?family=Muli|Roboto:300,700|Open+Sans&display=swap" rel="stylesheet" /> 
         </Head>
         <Header />
             <div className="main-content">
@@ -29,7 +29,9 @@ const Layout = (props) => (
             }
 
             h1 {
-                font-size: 50px;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 300;
+                font-size: 88px;
                 color: rgb(22, 50, 92);
             }
 

@@ -26,9 +26,14 @@ const Header = () => (
         <style jsx>{`
 
             a {
+                font-family: 'Roboto', sans-serif;
                 font-size: 20px;
                 text-decoration: none;
                 color: white;
+            }
+
+            a:hover{
+                text-decoration: none;
             }
 
             .navigation {

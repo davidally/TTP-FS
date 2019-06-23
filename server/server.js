@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const db = mongoose.connect('mongodb://127.0.0.1:27017/appdatabase', { useNewUrlParser: true});
 
 // Authentication modules
+const isAuth = require('./middleware');
 const session = require('express-session');
 
 // Custom APIs
@@ -19,8 +20,20 @@ app
     .then(() => {
         const server = express();
 
-        // Custom routes
+        // Custom modules
+        server.use(session({
+            secret: 'work hard',
+            resave: true,
+            saveUninitialized: false
+        }));
+        // server.use(isAuth);
         server.use(userAPI);
+
+        server.get('/api/test', isAuth, (req, res) =>{
+            console.log(req.session.userId);
+            console.log("user is authenticated!!");
+            res.sendStatus(200);
+        });
 
         // Dynamic Pages - Routing for NEXT Link component
         server.get('/stock/:id', (req, res) => {
