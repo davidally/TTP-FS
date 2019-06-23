@@ -18,11 +18,11 @@ class Login extends React.Component {
         }
         
     }
-    
+
     render(){
 
         return (
-            <div className="login-container">
+            <div>
                     <h1>LOGIN</h1>
                     <p className="form-caption">Sign up for an account today to start viewing and saving stocks.</p>
 
@@ -43,21 +43,21 @@ class Login extends React.Component {
                                     body: JSON.stringify(values)
                                 })
                                 .then(res => {
-                                    console.log(res.body.name);
-                                    /**
-                                     * If user is authenticated by server, reroute to the account page
-                                     * with token.
-                                     */
                                     if (res.status === 200){
-                                        Router.push({
-                                            pathname: '/dashboard'
-                                        }, '/dashboard/welcome');
+                                        return res.json();
                                     } else {
                                         actions.setErrors({
                                             email: 'That email was not found.'
                                         });
-                                        return actions.resetForm();
+                                        actions.resetForm();
+                                        return Promise.reject('Something went wrong.')
                                     }
+                                })
+                                .then(data => {
+                                    Router.push({
+                                        pathname: '/dashboard',
+                                        query: {name: data.name}
+                                    }, '/dashboard/welcome');
                                 })
                                 .catch(err => {
                                     console.log(err);
@@ -102,15 +102,6 @@ class Login extends React.Component {
                         margin-bottom: 20px;
                         width: 100%;
                         text-align: center;
-                    }
-
-                    .login-container {
-                        border: 1px solid grey;
-                        border-radius: 5px;
-                        box-shadow: -5px 5px 8px rgb(0, 0, 0, 0.2);
-                        padding: 20px;
-                        width: 600px;
-                        margin: 0 auto;
                     }
 
                     .login-form {

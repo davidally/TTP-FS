@@ -1,5 +1,5 @@
-import Layout from '../client/containers/Layout';
-import Forms from '../client/containers/UserForms';
+import Layout from '../client/comps/Layout/Layout';
+import Forms from '../client/comps/UserForms/UserForms';
 
 class Index extends React.Component {
     

@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import Header from '../comps/stateless/Header';
-import Footer from '../comps/stateless/Footer';
+import Header from './Sections/Header';
+import Footer from './Sections/Footer';
 
 const Layout = (props) => (
     <div>

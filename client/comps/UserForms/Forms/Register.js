@@ -26,7 +26,7 @@ class Register extends React.Component {
 
     render(){
         return (
-            <div className="auth-container">
+            <div>
                     <h1>REGISTER</h1>
                     <p className="form-caption">Sign up for an account today to start viewing and saving stocks.</p>
 
@@ -106,15 +106,6 @@ class Register extends React.Component {
                         margin-bottom: 20px;
                         width: 100%;
                         text-align: center;
-                    }
-
-                    .auth-container {
-                        border: 1px solid grey;
-                        border-radius: 5px;
-                        box-shadow: -5px 5px 8px rgb(0, 0, 0, 0.2);
-                        padding: 20px;
-                        width: 600px;
-                        margin: 0 auto;
                     }
 
                     .auth-form {

@@ -1,26 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
 const User = require('../../models/userModel');
-const jwt = require('jsonwebtoken');
-const sessionAuth = require('../../../server/middleware');
 
-const secret = 'devsecret';
 
 const router = express.Router();
 
 router.use(bodyParser.json());
-router.use(cookieParser());
 
-
-/**
- * @TODO Create route to check if user is authenticated with token.
- * Then go to the navigation and render a logout button based on if the token is found.
- * Create a logout route that destroys the JWT. Possibly need to find another solution
- * for authentication. Might need to remove JWT, middleware, and associated variables.
- */
 router.get('/api/access', sessionAuth, (req, res) => {
-    res.status(200).send({xyz: "test"});
+    res.sendStatus(200);
 });
 
 // Register Account
@@ -72,17 +60,7 @@ router.post('/api/authenticate', (req, res) => {
                 } else {
                     console.log('\nUSER HAS BEEN AUTHENTICATED!\n');
                     // Perform auth in this block
-                    const payload = { email };
-                    // JWT async sign
-                    const token = jwt.sign(payload, secret, {
-                        expiresIn: '1h'
-                    });
-                    /**
-                     * Set cookie property Secure to true in order to use HTTPS.
-                     * Cookie sets HTTP headers and so will be the end of the response chain.
-                     */
-                    console.log('Response body set:', setBody);
-                    res.cookie('token', token, { httpOnly: true}).status(200).send({name: setBody});
+                    res.status(200).send({name: setBody});
                 }
             });
         }

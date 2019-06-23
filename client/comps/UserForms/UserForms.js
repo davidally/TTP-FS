@@ -1,5 +1,5 @@
-import Register from '../comps/stateful/Register';
-import Login from '../comps/stateful/Login';
+import Register from './Forms/Register';
+import Login from './Forms/Login';
 
 class Forms extends React.Component {
     constructor(props){
@@ -17,12 +17,23 @@ class Forms extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="forms-container">
                 { 
                     this.state.toggle 
                         ? <Register redirect={this.toggleForm}/> 
                         : <Login redirect={this.toggleForm}/>
                 }
+
+                <style jsx>{`
+                    .forms-container {
+                        border: 1px solid grey;
+                        border-radius: 5px;
+                        box-shadow: -5px 5px 8px rgb(0, 0, 0, 0.2);
+                        padding: 20px;
+                        width: 600px;
+                        margin: 0 auto;
+                    }
+                `}</style>
             </div>
         )
     }
