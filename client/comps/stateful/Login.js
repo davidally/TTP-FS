@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
+import fetch from 'isomorphic-unfetch';
 
 /**
  * @TODO Make this and register into containers in order to 
@@ -10,16 +10,6 @@ class Login extends React.Component {
     constructor(props){
         super(props);
 
-        this.userSchema = yup.object().shape({
-            email: yup
-              .string()
-              .email('That email is not valid.')
-              .required('A valid email is required.'),
-            pass: yup
-              .string('Email not valid')
-              .min(9, 'Password must be 9 characters or longer.')
-              .required('A valid password is required.')
-          }),
         this.formikStyles = {
             field: {
                 width: "100%",
@@ -28,11 +18,7 @@ class Login extends React.Component {
         }
         
     }
-
-    moveToReg = () => {
-        this.props.redirect();
-    }
-
+    
     render(){
 
         return (
@@ -80,7 +66,6 @@ class Login extends React.Component {
                                 actions.setSubmitting(false);
                             }, 1500);
                         }}
-                        validationSchema={this.userSchema}
                     >
                         {formikProps => (
                             <Form className="login-form">
@@ -102,7 +87,7 @@ class Login extends React.Component {
                                 />
                                 <ErrorMessage name="password" render={msg => <small>{msg}</small>}/><br/>
 
-                                <small><a onClick={this.moveToReg}>Need an account? Register here.</a></small><br/>
+                                <small><a onClick={this.props.redirect}>Need an account? Register here.</a></small><br/>
 
                                 <button type="submit" disabled={formikProps.isSubmitting} className="login-btn">
                                     Log In

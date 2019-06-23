@@ -12,7 +12,7 @@ class Register extends React.Component {
               .email('That email is not valid.')
               .required('A valid email is required.'),
             pass: yup
-              .string('Email not valid')
+              .string('Password must use characters.')
               .min(9, 'Password must be 9 characters or longer.')
               .required('A valid password is required.')
           }),
@@ -22,11 +22,6 @@ class Register extends React.Component {
                 margin: "15px 0"
             }
         }
-        
-    }
-
-    moveToLogin = () => {
-        this.props.redirect();
     }
 
     render(){
@@ -52,7 +47,7 @@ class Register extends React.Component {
                                     },
                                     body: JSON.stringify(values)
                                 }).then((res) => {
-                                    res.status == 201 ? this.moveToLogin() : ''
+                                    res.status == 201 ? this.props.redirect() : ''
                                 })
                                 .catch(err => {
                                     console.log(err)
@@ -95,7 +90,7 @@ class Register extends React.Component {
                                     />
                                     <ErrorMessage name="password" render={msg => <small>{msg}</small>}/><br/>
 
-                                    <small><a onClick={this.moveToLogin}>Already have an account? Log in.</a></small><br/>
+                                    <small><a onClick={this.props.redirect}>Already have an account? Log in.</a></small><br/>
 
                                     <button type="submit" disabled={formikProps.isSubmitting} className="submit-btn">
                                         Submit

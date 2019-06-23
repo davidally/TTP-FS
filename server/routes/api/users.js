@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const User = require('../../models/userModel');
 const jwt = require('jsonwebtoken');
-const sessionAuth = require('../../middleware');
+const sessionAuth = require('../../../server/middleware');
 
 const secret = 'devsecret';
 
@@ -19,10 +19,6 @@ router.use(cookieParser());
  * Create a logout route that destroys the JWT. Possibly need to find another solution
  * for authentication. Might need to remove JWT, middleware, and associated variables.
  */
-router.get('/logout', sessionAuth, (req, res) => {
-    secret = "lol" + "ol";
-})
-
 router.get('/api/access', sessionAuth, (req, res) => {
     res.status(200).send({xyz: "test"});
 });
@@ -57,7 +53,7 @@ router.post('/api/authenticate', (req, res) => {
     let setBody;
     /**
      * Mongoose queries are executed asynchronously if passing a callback.
-     * The chain is continued past initial block via exec and then.
+     * The chain is continued past initial block (acts as pending) via exec and then.
      * This is when the query is finished and initial callback
      * is finally executed. 
      */
