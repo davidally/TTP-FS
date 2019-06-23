@@ -4,7 +4,8 @@ export const navMenu = [
     ["/", "Home"],
     ["/about", "About"],
     ["/dashboard", "Dashboard"],
-    ["/account", "Account"]
+    ["/account", "Account"],
+    ["/logout", "Logout"]
 ];
 
 const Header = () => (

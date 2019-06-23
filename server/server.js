@@ -30,9 +30,23 @@ app
         server.use(userAPI);
 
         server.get('/api/test', isAuth, (req, res) =>{
-            console.log(req.session.userId);
-            console.log("user is authenticated!!");
+            console.log(`\nUser: ${req.session.userId} is authenticated!\n`);
+            console.log("Session ID:", req.session.id);
+            console.log(req.session);
             res.sendStatus(200);
+        });
+
+        server.get('/logout', function(req, res, next) {
+            if (req.session) {
+              // delete session object
+              req.session.destroy(function(err) {
+                if(err) {
+                    return next(err);
+                } else {
+                    return res.clearCookie('connect.sid', { path: '/'}).redirect('/');
+                }
+              });
+            }
         });
 
         // Dynamic Pages - Routing for NEXT Link component
