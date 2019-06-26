@@ -1,5 +1,5 @@
-import Layout from '../client/comps/Layout/Layout';
-import Content from '../client/comps/Content/Content';
+import Layout from '../client/comps/Layout';
+import Content from '../client/comps/Content';
 import fetch from 'isomorphic-unfetch';
 
 

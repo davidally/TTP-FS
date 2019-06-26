@@ -6,8 +6,9 @@ const handle = app.getRequestHandler();
 
 // Database modules
 const mongoose = require('mongoose');
-const db = mongoose.connect('mongodb://127.0.0.1:27017/appdatabase', { useNewUrlParser: true});
-const User = require('./models/userModel');
+const db = mongoose.connect('mongodb://127.0.0.1:27017/appdatabase', { useNewUrlParser: true})
+.then(()=> console.log('\nMongoose is connected!'))
+.catch(err => console.log(err));
 
 // Authentication modules
 const isAuth = require('./middleware');
@@ -43,12 +44,6 @@ app
             app.render(req, res, '/dashboard');
         });
 
-        server.get('/api/allowed', isAuth, (req, res) =>{
-            console.log(`\nUser: ${req.session.userId} is authenticated!\n`);
-            console.log(req.session);
-            res.sendStatus(200);
-        });
-
         // Dynamic Pages - Routing for NEXT Link component
         server.get('/stock/:id', (req, res) => {
             const queryParams = { 
@@ -64,7 +59,7 @@ app
 
         server.listen(3000, err => {
             if (err) throw err;
-            console.log('\nREADY ON LOCALHOST! Starting...\n');
+            console.log('READY ON LOCALHOST! Starting...\n');
         });
     })
     .catch(ex => {

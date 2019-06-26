@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import Header from './Sections/Header';
-import Footer from './Sections/Footer';
+import Header from './Header';
+import Footer from './Footer';
 
 const Layout = (props) => (
     <div className="app">

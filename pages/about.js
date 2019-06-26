@@ -1,4 +1,4 @@
-import Layout from '../client/comps/Layout/Layout';
+import Layout from '../client/comps/Layout';
 
 const About = () => {
     return (

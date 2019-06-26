@@ -1,16 +1,12 @@
-import Layout from '../client/comps/Layout/Layout';
-import Forms from '../client/comps/UserForms/UserForms';
+import Layout from '../client/comps/Layout';
+import Forms from '../client/comps/UserForms';
 
-class Index extends React.Component {
-    
-
-    render() {
+const Index = () => {
         return (
             <Layout>
                 <Forms />
             </Layout>
         )
-    }
 }
 
 export default Index;

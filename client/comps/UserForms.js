@@ -1,5 +1,5 @@
-import Register from './Forms/Register';
-import Login from './Forms/Login';
+import Register from './Register';
+import Login from './Login';
 
 class Forms extends React.Component {
     constructor(props){

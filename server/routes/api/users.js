@@ -3,12 +3,15 @@ const bodyParser = require("body-parser");
 const User = require('../../models/userModel');
 const isAuth = require('../../middleware');
 
-
 const router = express.Router();
 
 router.use(bodyParser.json());
 
-// Register Account
+/**
+ * @route POST api/register
+ * @desc Register user account.
+ * @access Public
+ */
 router.post('/api/register', (req, res) => {
     // Create new user and log to db
     const userProfile = new User({
@@ -34,7 +37,9 @@ router.post('/api/register', (req, res) => {
 });
 
 /**
- * User Login
+ * @route POST api/authenticate
+ * @desc User login/authentication.
+ * @access Public
  * Mongoose queries are executed asynchronously if passing a callback.
  * The chain is continued past initial block (acts as pending) via exec and then.
  * This is when the query is finished and initial callback
@@ -72,6 +77,11 @@ router.post('/api/authenticate', (req, res) => {
     })
 });
 
+/**
+ * @route GET api/data
+ * @desc Query db and return user data.
+ * @access Private
+ */
 router.get('/api/data', isAuth, (req, res) => {
     const id = req.session.userId;
     User.findById(id, (err, user) => {
@@ -92,6 +102,11 @@ router.get('/api/data', isAuth, (req, res) => {
     });
 });
 
+/**
+ * @route GET api/data
+ * @desc Logout - Destroys user session used for authentication.
+ * @access Public
+ */
 router.get('/logout', function(req, res, next) {
     if (req.session) {
       // delete session object
