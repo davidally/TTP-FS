@@ -9,7 +9,8 @@ const User = new Schema({
     id: ObjectId,
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    funds: {type: Number, required: true}
 });
 
 User.pre('save', function(next) {

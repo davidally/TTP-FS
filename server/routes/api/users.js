@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const User = require('../../models/userModel');
+const isAuth = require('../../middleware');
 
 
 const router = express.Router();
@@ -13,7 +14,8 @@ router.post('/api/register', (req, res) => {
     const userProfile = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.pass
+        password: req.body.pass,
+        funds: 5000
     });
     userProfile
     .save()
@@ -40,7 +42,7 @@ router.post('/api/register', (req, res) => {
  */
 router.post('/api/authenticate', (req, res) => {
     const { email, pass } = req.body
-    let setBody;
+    let userID;
     User.findOne({ email }, (err, user) =>{
         if (err) {
             console.log(err);
@@ -54,21 +56,55 @@ router.post('/api/authenticate', (req, res) => {
                 } else if (!same) {
                     res.status(401).json({error: 'Your password was incorrect.'});
                 } else {
-                    // Identify user by their ID and share with session
-                    // console.log('\nUSER HAS BEEN AUTHENTICATED!\n');
-                    req.session.userId = setBody;
-                    res.status(200).send({name: "setBody"});
+                    // Identify user by their ID and share with session 
+                    req.session.userId = userID;
+                    res.sendStatus(200);
                 }
             });
         }
     })
     .exec()
     .then(data => {
-        setBody = data._id;
+        userID = data._id;
     })
     .catch(err => {
         console.log(err);
     })
+});
+
+router.get('/api/data', isAuth, (req, res) => {
+    const id = req.session.userId;
+    User.findById(id, (err, user) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({error: 'ERR: Internal error, try again.'});
+        }
+    })
+    .exec()
+    .then(data => {
+        const username = data.name;
+        const userFunds = data.funds;
+        const userEmail = data.email;
+        res.send({name: username, email: userEmail, funds: userFunds});
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
+router.get('/logout', function(req, res, next) {
+    if (req.session) {
+      // delete session object
+      req.session.destroy(function(err) {
+        if(err) {
+            return next(err);
+        } else {
+            setTimeout(() => {
+                return res.clearCookie('connect.sid', { path: '/'}).redirect('/');
+            }, 2000);
+        }
+      });
+    }
 });
 
 module.exports = router;

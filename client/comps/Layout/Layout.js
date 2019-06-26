@@ -3,19 +3,19 @@ import Header from './Sections/Header';
 import Footer from './Sections/Footer';
 
 const Layout = (props) => (
-    <div>
+    <div className="app">
         <Head>
             <title>Stockfolio - Buy Stocks</title>
             <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css"/>
-            <link href="https://fonts.googleapis.com/css?family=Muli|Roboto:300,700|Open+Sans&display=swap" rel="stylesheet" /> 
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300,700|Nunito+Sans:200,900|Open+Sans&display=swap" rel="stylesheet" /> 
         </Head>
         <Header />
             <div className="main-content">
                 {props.children}
             </div>
         <Footer />
-
         <style jsx global>{`
+
              * {
                 font-family: "Open Sans", sans-serif;
             }
@@ -25,7 +25,7 @@ const Layout = (props) => (
             }
             
             p {
-                color: green;
+                color: black;
             }
 
             h1 {
@@ -52,27 +52,35 @@ const Layout = (props) => (
                 margin-left: 10px;
                 color: red;
             }
-            
-            .submit-btn {
-                border: 2px solid #5194ff;
-                border-radius: 4px;
-                padding: 10px 20px;
-                margin: 20px 0;
-                background-color: #2a7afc;
+
+            .btn {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: white;
+                border-radius: 30px;
+                border: none;
+                padding: 15px 25px;
+                background-color: #0b61ea;
+                letter-spacing: 1px;
+                margin-top: 20px;
             }
+
             
-            .login-btn:hover,
-            .submit-btn:hover {
+            .btn:hover {
                 background-color: rgba(0,0,0,0);
+                color: black;
+                border: 2px solid #0b61ea;
             }
             
-            .login-btn {
-                border: 2px solid #9e85fc;
-                border-radius: 4px;
-                padding: 10px 20px;
-                margin: 20px 0;
-                background-color: #f93e60;
+            .alt {
+                background-color: #fc2a51;
             }
+            
+            .alt:hover {
+                border: 2px solid #fc2a51;
+            }
+            
         `}</style>
     </div>
 );

@@ -44,19 +44,15 @@ class Login extends React.Component {
                                 })
                                 .then(res => {
                                     if (res.status === 200){
-                                        return res.json();
+                                        Router.push({
+                                            pathname: '/dashboard' 
+                                        });
                                     } else {
                                         actions.setErrors({
                                             email: 'That email was not found.'
                                         });
-                                        actions.resetForm();
-                                        return Promise.reject('Something went wrong.')
+                                        return actions.resetForm();
                                     }
-                                })
-                                .then(data => {
-                                    Router.push({
-                                        pathname: '/dashboard'
-                                    }, '/dashboard/welcome');
                                 })
                                 .catch(err => {
                                     console.log(err);
@@ -88,7 +84,7 @@ class Login extends React.Component {
 
                                 <small><a onClick={this.props.redirect}>Need an account? Register here.</a></small><br/>
 
-                                <button type="submit" disabled={formikProps.isSubmitting} className="login-btn">
+                                <button type="submit" disabled={formikProps.isSubmitting} className="btn">
                                     Log In
                                 </button>
                             </Form>

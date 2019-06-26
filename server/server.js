@@ -7,6 +7,7 @@ const handle = app.getRequestHandler();
 // Database modules
 const mongoose = require('mongoose');
 const db = mongoose.connect('mongodb://127.0.0.1:27017/appdatabase', { useNewUrlParser: true});
+const User = require('./models/userModel');
 
 // Authentication modules
 const isAuth = require('./middleware');
@@ -21,32 +22,31 @@ app
         const server = express();
 
         // Custom modules
+        // Configure session cookies to be secure by making sure the site uses HTTPS
         server.use(session({
             secret: 'work hard',
             resave: true,
             saveUninitialized: false
         }));
-        // server.use(isAuth);
+
         server.use(userAPI);
 
-        server.get('/api/test', isAuth, (req, res) =>{
-            console.log(`\nUser: ${req.session.userId} is authenticated!\n`);
-            console.log("Session ID:", req.session.id);
-            console.log(req.session);
-            res.sendStatus(200);
+        server.get('/', (req, res) => {
+            app.render(req, res, '/index');
         });
 
-        server.get('/logout', function(req, res, next) {
-            if (req.session) {
-              // delete session object
-              req.session.destroy(function(err) {
-                if(err) {
-                    return next(err);
-                } else {
-                    return res.clearCookie('connect.sid', { path: '/'}).redirect('/');
-                }
-              });
-            }
+        server.get('/about', (req, res) => {
+            app.render(req, res, '/about');
+        });
+
+        server.get('/dashboard', isAuth, (req, res) => {
+            app.render(req, res, '/dashboard');
+        });
+
+        server.get('/api/allowed', isAuth, (req, res) =>{
+            console.log(`\nUser: ${req.session.userId} is authenticated!\n`);
+            console.log(req.session);
+            res.sendStatus(200);
         });
 
         // Dynamic Pages - Routing for NEXT Link component

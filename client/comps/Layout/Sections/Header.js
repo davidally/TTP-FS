@@ -3,8 +3,6 @@ import Link from 'next/link';
 export const navMenu = [
     ["/", "Home"],
     ["/about", "About"],
-    ["/dashboard", "Dashboard"],
-    ["/account", "Account"],
     ["/logout", "Logout"]
 ];
 
@@ -15,7 +13,7 @@ const Header = () => (
                 {
                     navMenu.map((item, index) =>
                         <li key={`${item}-${index}`}>
-                            <Link href={item[0]}>
+                            <Link href={item[0]} as={item[0]}>
                                 <a>{item[1]}</a>
                             </Link>
                         </li>
@@ -31,6 +29,7 @@ const Header = () => (
                 font-size: 20px;
                 text-decoration: none;
                 color: white;
+                text-transform: uppercase;
             }
 
             a:hover{

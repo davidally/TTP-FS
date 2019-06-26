@@ -7,11 +7,13 @@ const Footer = () => (
         <style jsx>{`
 
         .foot-container{
-            background-color: black;
-            height: 100%;
+            background-color: #333;
+            max-height: 100%;
+            width: 100%;
             margin-top: 100px;
             text-align: center;
-            
+            position: fixed;
+            bottom: 0;
         }
 
         .foot-caption {

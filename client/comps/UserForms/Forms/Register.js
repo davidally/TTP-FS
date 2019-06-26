@@ -13,7 +13,7 @@ class Register extends React.Component {
               .required('A valid email is required.'),
             pass: yup
               .string('Password must use characters.')
-              .min(9, 'Password must be 9 characters or longer.')
+              .min(5, 'Password must be 5 characters or longer.')
               .required('A valid password is required.')
           }),
         this.formikStyles = {
@@ -92,7 +92,7 @@ class Register extends React.Component {
 
                                     <small><a onClick={this.props.redirect}>Already have an account? Log in.</a></small><br/>
 
-                                    <button type="submit" disabled={formikProps.isSubmitting} className="submit-btn">
+                                    <button type="submit" disabled={formikProps.isSubmitting} className="btn alt">
                                         Submit
                                     </button>
                                 </Form>

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./server/server.js",
+    "dev": "nodemon -w server/server.js server/server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
   },
@@ -19,7 +19,9 @@
     "url": "https://github.com/davidally/TTP-FS/issues"
   },
   "homepage": "https://github.com/davidally/TTP-FS#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
