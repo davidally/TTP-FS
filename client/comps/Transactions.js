@@ -8,16 +8,19 @@ const dummyData = [
     ["FB", "Price: $120"],
     ["SPCEX", "Price: $120"],
     ["TSLA", "Price: $120"],
+    ["FB", "Price: $120"],
+    ["SPCEX", "Price: $120"],
+    ["TSLA", "Price: $120"],
+    ["TSLA", "Price: $120"],
+    ["FB", "Price: $120"],
+    ["SPCEX", "Price: $120"],
+    ["TSLA", "Price: $120"]
 ];
 
 class Transactions extends React.Component {
     render() {
         return (
             <div>
-                <small>
-                    Here is a list of all your recent transactions. Compare the price difference between
-                    the current time and initial opening time today.
-                </small>
                 <div className="transaction-list">
                     {
                         dummyData.map((item, index )=> {
@@ -57,7 +60,6 @@ class Transactions extends React.Component {
                     
                     .symbol {
                         display: inline-block;
-                        text-align: center;
                         border-right: 1px solid black;
                         width: 200px;
                         padding: 0 10px;
@@ -70,19 +72,20 @@ class Transactions extends React.Component {
                     }
 
                     .transaction {
-                        border: 1px solid black;
+                        border-bottom: 1px solid #b7b7b7;
                     }
 
                     .transaction-list {
-                        border: 1px solid black;
+                        border: 1px solid #b7b7b7;
                         border-radius: 4px;
                         margin-top: 20px;
+                        box-shadow: -5px 10px 15px rgba(0,0,0,0.2);
                     }
 
                     .item-options {
                         display: flex;
                         align-items: center;
-                        justify-content: space-between;
+                        justify-content: space-around;
                         padding: 0 10px;
                     }
                 `}</style>

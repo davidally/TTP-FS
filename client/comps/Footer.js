@@ -12,7 +12,7 @@ const Footer = () => (
             width: 100%;
             margin-top: 100px;
             text-align: center;
-            position: fixed;
+            position: relative;
             bottom: 0;
         }
 

@@ -28,7 +28,7 @@ class AccountDisp extends React.Component {
 
                     .account-info {
                         padding: 0;
-                        max-width: 250px;
+                        max-width: 100%;
                         border-radius: 5px;
                         border: 1px solid #b7b7b7;
                         border-bottom: 10px solid rgb(22,50,92);
