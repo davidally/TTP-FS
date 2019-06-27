@@ -28,7 +28,7 @@ const Dashboard = () => {
                     <h1>Welcome back, {!usrData ? 'User' : usrData.name}!</h1>
                 </div>
                 <div className="dashboard">
-                    <div className="dash-col transactions">
+                    <div className="transactions">
                         <p>
                             Here is a list of all your recent transactions. Compare the price difference between
                             the current time and initial opening time today. Use the search bar below in order to look
@@ -37,14 +37,14 @@ const Dashboard = () => {
                         <Search />
                         <Transactions />
                     </div> 
-                    <div className="dash-col account">
+                    <div className="account">
                         <AccountDisp data={!usrData? '' : usrData}/>
                     </div>
                 </div>
             </div>
             <style jsx>{`
             .container {
-                padding: 30px;
+                padding: 30px 150px;
             }
 
             .dash-title {
@@ -53,12 +53,39 @@ const Dashboard = () => {
                 margin-bottom: 50px;
             }
             .dashboard {
-                display: inline-grid;
+                display: grid;
                 grid-template-columns: 9fr 3fr;
                 width: 100%;
             }
             .account {
                 margin-left: 30px;
+            }
+
+            @media only screen and (max-width: 1200px) and (min-width: 901px){
+                .container {
+                    padding: 30px 50px;
+                }           
+            }
+            
+            @media only screen and (max-width: 900px){
+
+                .container {
+                    padding: 30px 50px;
+                } 
+
+                .dashboard {
+                    grid-template-columns: 1fr;
+                    grid-auto-flow: row;
+                    justify-content: center;
+                }
+
+                .account {
+                    margin-bottom: 50px;
+                }
+                
+                .transactions {
+                    order: 2;
+                }
             }
             `}</style>
         </Layout>

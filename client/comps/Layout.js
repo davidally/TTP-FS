@@ -5,6 +5,7 @@ import Footer from './Footer';
 const Layout = (props) => (
     <div className="app">
         <Head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>Stockfolio - Buy Stocks</title>
             <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css"/>
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,700|Nunito+Sans:200,900|Open+Sans&display=swap" rel="stylesheet" /> 

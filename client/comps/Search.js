@@ -1,4 +1,4 @@
-const getTickers = require('../../utils/symbols');
+const getTickers = require('../utils/symbols');
 
 
 class Search extends React.Component {
@@ -22,7 +22,7 @@ class Search extends React.Component {
 
 
     onTextChanged = (e) => {
-        const { tickers } = this.state
+        const { tickers } = this.state;
         const value = e.target.value;
         let suggestions = [];
         if (this.state.tickers){
@@ -40,7 +40,12 @@ class Search extends React.Component {
             return null;
         }
         return (
-            <ul className="ticker-container">
+            <ul style={{ 
+                borderTop: '1px solid #b7b7b7',
+                maxHeight: '200px',
+                overflowY: 'scroll',
+                overflowX: 'hidden'
+            }}>
                 {
                     suggestions.map(
                         (item, index) => <li className="ticker-item" key={`${item}-${index}`} onClick={() => this.selectedSuggestion(item)}>
@@ -79,6 +84,12 @@ class Search extends React.Component {
                 {this.renderSuggestions()}
 
             <style jsx>{`
+
+                ul::-webkit-scrollbar {
+                    width: 6px;
+                    background-color: #F5F5F5;
+                } 
+
                 .container {
                     margin: 35px 0;
                     border: 1px solid #b7b7b7;
