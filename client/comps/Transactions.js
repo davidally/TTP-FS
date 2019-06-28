@@ -47,6 +47,7 @@ class Transactions extends React.Component {
                     .buy {
                         background-color: #00ff3b;
                         color: black;
+                        margin: 0;
                     }
 
                     .buy:hover {
@@ -56,11 +57,12 @@ class Transactions extends React.Component {
 
                     .item-data {
                         display: inline-block;
+                        width: 400px;
                     }
                     
                     .symbol {
                         display: inline-block;
-                        border-right: 1px solid black;
+                        border-right: 5px solid rgb(22,50,92);
                         width: 200px;
                         padding: 0 10px;
                     }
@@ -73,6 +75,7 @@ class Transactions extends React.Component {
 
                     .transaction {
                         border-bottom: 1px solid #b7b7b7;
+                        display: flex;
                     }
 
                     .transaction-list {
@@ -84,8 +87,10 @@ class Transactions extends React.Component {
 
                     .item-options {
                         display: flex;
+                        height: 100%;
+                        width: 100%;
+                        justify-content: space-between;
                         align-items: center;
-                        justify-content: space-around;
                         padding: 0 10px;
                     }
                 `}</style>

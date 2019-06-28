@@ -1,4 +1,4 @@
-class AccountDisp extends React.Component {
+class AccountCard extends React.Component {
     constructor(props){
         super(props);
     }
@@ -31,21 +31,19 @@ class AccountDisp extends React.Component {
                         max-width: 100%;
                         border-radius: 5px;
                         border: 1px solid #b7b7b7;
-                        border-bottom: 10px solid rgb(22,50,92);
+                        box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
                     }
 
                     .user-buttons {
                         display: flex;
                         justify-content: space-between;
+                        flex-direction: column;
                         padding: 15px;
                     }
                     
                     .acc-email,
                     .acc-title {
-                        color: #4e4a67;
-                        font-family: 'Nunito Sans', 'sans-serif';
                         font-weight: 200;
-                        font-size: 23px;
                         word-wrap: break-word;
                         padding: 10px 30px;
                     }
@@ -56,4 +54,4 @@ class AccountDisp extends React.Component {
     }
 }
 
-export default AccountDisp;
+export default AccountCard;

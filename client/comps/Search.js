@@ -73,6 +73,7 @@ class Search extends React.Component {
             text: value,
             suggestions: []
         }));
+        this.props.handleTicker(value);
     }
 
     render() {
@@ -91,7 +92,7 @@ class Search extends React.Component {
                 } 
 
                 .container {
-                    margin: 35px 0;
+                    margin: 5px 0;
                     border: 1px solid #b7b7b7;
                     width: 100%;
                     box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);

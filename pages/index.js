@@ -3,7 +3,7 @@ import Forms from '../client/comps/UserForms';
 
 const Index = () => {
         return (
-            <Layout>
+            <Layout title={'Stockfolio - Buy Stocks'}>
                 <Forms />
             </Layout>
         )

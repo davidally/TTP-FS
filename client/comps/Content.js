@@ -21,7 +21,6 @@ class Content extends React.Component {
     render() {
         return (
             <div>
-                <small>All data provided by the IPEX.</small>
                 <h1>{this.props.data.symbol}</h1>
                 <div className="stock-data">
                     <table>

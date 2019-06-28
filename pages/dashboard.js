@@ -1,6 +1,7 @@
 import Layout from '../client/comps/Layout';
-import AccountDisp from '../client/comps/AccountDisp';
-import Transactions from '../client/comps/Transactions';``
+import AccountCard from '../client/comps/AccountCard';
+import Transactions from '../client/comps/Transactions';
+import TickerCard from '../client/comps/TickerCard';
 import Search from '../client/comps/Search';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -8,8 +9,9 @@ import axios from 'axios';
 
 
 const Dashboard = () => { 
-    // Hook to fetch data 
+    // Hooks to fetch data and set state
     const [usrData, setData] = useState({});
+    const [tickerChoice, setTickerChoice] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,28 +23,41 @@ const Dashboard = () => {
         fetchData();
     }, []);
 
+    const handleTickerChoice = (choice) => {
+        setTickerChoice(choice);
+    };
+
     return (
-        <Layout>
+        <Layout title={'Dashboard'}>
             <div className="container">
                 <div className="dash-title">
                     <h1>Welcome back, {!usrData ? 'User' : usrData.name}!</h1>
                 </div>
                 <div className="dashboard">
                     <div className="transactions">
-                        <p>
+                        <p className="dash-info">
                             Here is a list of all your recent transactions. Compare the price difference between
                             the current time and initial opening time today. Use the search bar below in order to look
                             up company symbols and click for more data.
                         </p>
-                        <Search />
+                        <small>Data provided by IEX Cloud.</small>
+                        <Search handleTicker={handleTickerChoice}/>
                         <Transactions />
-                    </div> 
+                    </div>
                     <div className="account">
-                        <AccountDisp data={!usrData? '' : usrData}/>
+                    {
+                        tickerChoice === '' ? null : <TickerCard ticker={tickerChoice}/>
+                    }
+                        <AccountCard data={!usrData? '' : usrData}/>
                     </div>
                 </div>
             </div>
             <style jsx>{`
+            small {
+                margin-top: 50px;
+                display: inline-block;
+            }
+
             .container {
                 padding: 30px 150px;
             }
@@ -61,7 +76,7 @@ const Dashboard = () => {
                 margin-left: 30px;
             }
 
-            @media only screen and (max-width: 1200px) and (min-width: 901px){
+            @media only screen and (max-width: 1300px) and (min-width: 901px){
                 .container {
                     padding: 30px 50px;
                 }           
@@ -79,8 +94,12 @@ const Dashboard = () => {
                     justify-content: center;
                 }
 
+                .dash-info {
+                    display: none;
+                }
+
                 .account {
-                    margin-bottom: 50px;
+                    margin-bottom: 10px;
                 }
                 
                 .transactions {
