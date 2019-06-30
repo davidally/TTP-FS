@@ -5,7 +5,6 @@ const TickerCard = (props) => {
     const [cardData, setCard] = useState(0);
     const [buyShares, setBuyButton] = useState(false);
     const currentDate = new Date();
-    console.log(currentDate);
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
 
     useEffect(() => {
@@ -17,7 +16,7 @@ const TickerCard = (props) => {
     }, [props.ticker]);
 
     const postTransaction = (arr) => {
-        axios.post('/api/testtrans', {
+        axios.post('/api/buyStock', {
             symbol: props.ticker,
             totalPaid: arr[2],
             pricePerShare: arr[0],
@@ -39,7 +38,7 @@ const TickerCard = (props) => {
         const cost = quantity * price;
 
         if (cost > funds) {
-            console.log('You cannot make this purchase')
+            alert('You cannot make this purchase')
         } else {
             remainingFunds = funds - cost;
             postTransaction([price, quantity, cost, remainingFunds.toFixed(2)]);

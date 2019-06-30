@@ -46,6 +46,10 @@ app
             app.render(req, res, '/dashboard');
         });
 
+        server.get('/purchases', isAuth, (req, res) => {
+            app.render(req, res, '/purchases');
+        });
+
         // Dynamic Pages - Routing for NEXT Link component
         server.get('/stock/:id', (req, res) => {
             const queryParams = { 

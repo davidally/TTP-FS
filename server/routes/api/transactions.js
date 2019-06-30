@@ -10,12 +10,11 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 /**
- * @route POST api/testrans
+ * @route POST api/buystock
  * @desc Save stock purchase transaction.
  * @access Private
  */
-router.post('/api/buystock', isAuth, (req, res) => {
-
+router.post('/api/buyStock', isAuth, (req, res) => {
     const id = req.session.userId;
 
     const transaction = new Transaction({
@@ -27,9 +26,32 @@ router.post('/api/buystock', isAuth, (req, res) => {
         postTime: new Date()
     });
     transaction.save();
+
+    // Once transaction is saved push its reference into user array
     User.findOneAndUpdate(id, {$push: {transactions: transaction}}, (err => {
-        if (err) console.log(err);
+        if (err) {
+            console.log(err)
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(201);
+        }
     }));
+});
+
+/**
+ * @route GET api/transData
+ * @desc Get stock transactions.
+ * @access Private
+ */
+router.get('/api/transData', isAuth, (req, res) => {
+    const id = req.session.userId;
+    User
+    .findById(id)
+    .populate('transactions')
+    .exec()
+    .then(data =>{
+        res.status(200).json(data);
+    });
 });   
 
 module.exports = router;

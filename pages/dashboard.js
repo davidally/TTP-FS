@@ -45,7 +45,7 @@ const Dashboard = () => {
                     {
                         tickerChoice === '' ? null : <TickerCard ticker={tickerChoice} funds={usrData.funds}/>
                     }
-                        <AccountCard data={!usrData? '' : usrData}/>
+                        <AccountCard data={!usrData ? '' : usrData}/>
                     </div>
                 </div>
             </div>
