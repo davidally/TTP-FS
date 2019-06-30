@@ -16,6 +16,7 @@ const session = require('express-session');
 
 // Custom APIs
 const userAPI = require('./routes/api/users');
+const purchaseAPI = require('./routes/api/transactions');
 
 app
     .prepare()
@@ -31,6 +32,7 @@ app
         }));
 
         server.use(userAPI);
+        server.use(purchaseAPI);
 
         server.get('/', (req, res) => {
             app.render(req, res, '/index');

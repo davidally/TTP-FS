@@ -8,13 +8,7 @@ const dummyData = [
     ["FB", "Price: $120"],
     ["SPCEX", "Price: $120"],
     ["TSLA", "Price: $120"],
-    ["FB", "Price: $120"],
-    ["SPCEX", "Price: $120"],
-    ["TSLA", "Price: $120"],
-    ["TSLA", "Price: $120"],
-    ["FB", "Price: $120"],
-    ["SPCEX", "Price: $120"],
-    ["TSLA", "Price: $120"]
+    ["FB", "Price: $120"]
 ];
 
 class Transactions extends React.Component {

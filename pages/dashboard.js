@@ -9,17 +9,14 @@ import axios from 'axios';
 
 
 const Dashboard = () => { 
-    // Hooks to fetch data and set state
     const [usrData, setData] = useState({});
     const [tickerChoice, setTickerChoice] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`/api/data`);
-            const test = result.data;
-            setData(test);
+            setData(result.data);
         };
-        
         fetchData();
     }, []);
 
@@ -46,7 +43,7 @@ const Dashboard = () => {
                     </div>
                     <div className="account">
                     {
-                        tickerChoice === '' ? null : <TickerCard ticker={tickerChoice}/>
+                        tickerChoice === '' ? null : <TickerCard ticker={tickerChoice} funds={usrData.funds}/>
                     }
                         <AccountCard data={!usrData? '' : usrData}/>
                     </div>

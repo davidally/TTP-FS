@@ -10,7 +10,10 @@ const User = new Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    funds: {type: Number, required: true}
+    funds: {type: Number, required: true},
+    transactions: [{ 
+        type: mongoose.Schema.Types.ObjectId, ref: 'Transaction', required: false
+    }]
 });
 
 User.pre('save', function(next) {

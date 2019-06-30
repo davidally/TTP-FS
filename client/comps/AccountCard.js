@@ -1,18 +1,13 @@
-class AccountCard extends React.Component {
-    constructor(props){
-        super(props);
-    }
-
-    render() {
+const AccountCard = (props) => {
         return (
             <div>
                 <div className="account-info">
                     <p className="label">ACCOUNT:</p>
-                    <p className="acc-title">{this.props.data.name}</p>
+                    <p className="acc-title">{props.data.name}</p>
                     <p className="label">FUNDS:</p>
-                    <p className="acc-title">{`$${this.props.data.funds}`}</p>
+                    <p className="acc-title">{`$${props.data.funds}`}</p>
                     <p className="label">EMAIL:</p>
-                    <p className="acc-email">{this.props.data.email}</p>
+                    <p className="acc-email">{props.data.email}</p>
                     <div className="user-buttons">
                         <button className="btn">Update</button>
                         <button className="btn">Delete</button>
@@ -50,8 +45,7 @@ class AccountCard extends React.Component {
 
                 `}</style>
             </div>
-        )
-    }
+        );
 }
 
 export default AccountCard;
