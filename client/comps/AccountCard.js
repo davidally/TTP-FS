@@ -1,4 +1,11 @@
+import Router from 'next/router';
+
 const AccountCard = (props) => {
+
+    const seeTransactions = () => {
+        Router.push('/purchases');
+    }
+
         return (
             <div>
                 <div className="account-info">
@@ -9,8 +16,8 @@ const AccountCard = (props) => {
                     <p className="label">EMAIL:</p>
                     <p className="acc-email">{props.data.email}</p>
                     <div className="user-buttons">
+                        <button className="btn" onClick={seeTransactions}>My Transactions</button>
                         <button className="btn">Update</button>
-                        <button className="btn">Delete</button>
                     </div>
                 </div>
                 <style jsx>{`

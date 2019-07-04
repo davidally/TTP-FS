@@ -14,7 +14,7 @@ const Purchases = () => {
         fetchData();
     }, []);
 
-    const listTotal = (value) => {
+    const getTotal = (value) => {
         const sum = transactions.reduce((prev, next) => {
             return prev + next[value];
         }, 0);
@@ -45,17 +45,17 @@ const Purchases = () => {
                             )
                         })
                     }
+                </div>
                     {
                         transactions.length >= 1 
                         ? (
-                            <div>
-                                <label>Total Expenses:<p className="data">${listTotal("totalPaid")}</p></label>
-                                <label>Total Quantity<p className="data">{listTotal("quantity")}</p></label>
+                            <div className="summary">
+                                <label>Total Expenses:<p className="data">${getTotal("totalPaid")}</p></label>
+                                <label>Stock Quantity<p className="data">{getTotal("quantity")}</p></label>
                             </div>
                         ) 
                         : null
                     }
-                </div>
             </div>
             <style jsx>{`
                 .container {
@@ -97,6 +97,13 @@ const Purchases = () => {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                }
+
+                .summary {
+                    border: 1px solid #b7b7b7;
+                    border-radius: 4px;
+                    box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
+                    padding: 20px;
                 }
 
                 button {
