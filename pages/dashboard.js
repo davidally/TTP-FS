@@ -2,27 +2,47 @@ import Layout from '../client/comps/Layout';
 import AccountCard from '../client/comps/AccountCard';
 import Transactions from '../client/comps/Transactions';
 import TickerCard from '../client/comps/TickerCard';
+import Pagination from '../client/comps/Pagination';
 import Search from '../client/comps/Search';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-
 const Dashboard = () => { 
+    const [loading, setLoading] = useState(false);
     const [usrData, setData] = useState({});
     const [tickerChoice, setTickerChoice] = useState('');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios(`/api/data`);
-            setData(result.data);
-        };
-        fetchData();
-    }, []);
+    const [transactions, setTransactions] = useState([]);
+    const [currPage, setCurrPage] = useState(1);
+    const [perPage, setPerPage] = useState(5);
 
     const handleTickerChoice = (choice) => {
         setTickerChoice(choice);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+
+            const resOne = await axios(`/api/data`);
+            const resTwo = await axios(`/api/transData`);
+            const purchaseList = resTwo.data.transactions;
+            const newArr = purchaseList.map(obj => obj.symbol);
+
+            setData(resOne.data);
+            setTransactions(newArr);
+
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
+
+    // Transaction pagination
+    const lastIndex = currPage * perPage;
+    const firstIndex = lastIndex - perPage;
+    const currentTransactions = transactions.slice(firstIndex, lastIndex);
+    const paginate = (pageNum) => setCurrPage(pageNum);
+    // END: Transaction pagination
 
     return (
         <Layout title={'Dashboard'}>
@@ -39,7 +59,12 @@ const Dashboard = () => {
                         </p>
                         <small>Data provided by IEX Cloud.</small>
                         <Search handleTicker={handleTickerChoice}/>
-                        <Transactions />
+                        <Transactions transactions={currentTransactions} loading={loading} />
+                        <Pagination 
+                            perPage={perPage} 
+                            total={transactions.length} 
+                            paginate={paginate} 
+                        />
                     </div>
                     <div className="account">
                     {

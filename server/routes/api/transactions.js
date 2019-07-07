@@ -28,7 +28,14 @@ router.post('/api/buyStock', isAuth, (req, res) => {
     transaction.save();
 
     // Once transaction is saved push its reference into user array
-    User.findOneAndUpdate(id, {$push: {transactions: transaction}, $set: {funds: req.body.remainingFunds}}, (err => {
+    User.findOneAndUpdate(id, {
+        $push: {
+            transactions: transaction
+        }, 
+        $set: {
+            funds: req.body.remainingFunds
+        }
+    }, (err => {
         if (err) {
             console.log(err)
             res.sendStatus(500);

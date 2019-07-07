@@ -2,11 +2,18 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const TickerCard = (props) => {
+    // React hooks initialize state and their setter functions
     const [cardData, setCard] = useState(0);
     const [buyShares, setBuyButton] = useState(false);
+    const [successMsg, setSuccessMsg] = useState(null);
+    const [costPrev, setCostPrev] = useState(0);
+
     const currentDate = new Date();
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
 
+    /**
+     * @desc React hook will initially fetch api data and only if the ticker value changes.
+     */
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`https://sandbox.iexapis.com/v1/stock/${props.ticker}/ohlc?token=Tpk_4a728bea05b54378b80585aa076cb8e5`);
@@ -15,6 +22,12 @@ const TickerCard = (props) => {
         fetchData();
     }, [props.ticker]);
 
+    /**
+     * 
+     * @param {object} arr Array of number values.
+     * @desc Takes in an array from handlePurchase and then makes
+     * post request to backend to store data. 
+     */
     const postTransaction = (arr) => {
         axios.post('/api/buyStock', {
             symbol: props.ticker,
@@ -29,6 +42,13 @@ const TickerCard = (props) => {
         .catch(err => console.log(err));
     };  
 
+    /**
+     * 
+     * @param {object} e Form submission event.
+     * @desc Handles the values of the purchase from the form then checks
+     * if the total purchase is more or less than the available funds. If
+     * the cost is less then postTransaction will fire with the handles form values.
+     */
     const handlePurchase = (e) => {
         e.preventDefault();
         let remainingFunds;
@@ -38,20 +58,37 @@ const TickerCard = (props) => {
         const cost = quantity * price;
 
         if (cost > funds) {
-            alert('You cannot make this purchase')
+            setSuccessMsg(false);
         } else {
             remainingFunds = funds - cost;
+            setSuccessMsg(true);
             postTransaction([price, quantity, cost, remainingFunds.toFixed(2)]);
         }
     };
+
+    const showCost = (e) => {
+        const quantity = e.target.value;
+        const { price } = cardData.open;
+        const result = quantity * price;
+        setCostPrev(result.toFixed(2));
+    };
+
+    const submitMessage = () => {
+        if (successMsg === true ){
+            return (<p style={{color: '#4293f5'}}>Purchase successful!</p>)
+        } else if (successMsg === false) {
+            return (<p style={{color: '#f5424b'}}>You cannot make this purchase.</p>)
+        } else null
+    }
 
     return (
         <div className="container">
             <div>
                 <h3>{props.ticker}</h3>
                 {
-                    cardData === 0 ? null :
-                    (
+                    cardData === 0 
+                    ? null 
+                    : (
                         <ul>
                             <li><label>As of: </label>{formattedDate}</li>
                             <li><label>Open: </label>${cardData.open.price}</li>
@@ -61,11 +98,18 @@ const TickerCard = (props) => {
                 }
                 <p><a onClick={() => setBuyButton(buyShares === false ? true : false)}>Would you like to buy shares in {props.ticker}?</a></p>
                 {
-                    buyShares === false ? null : 
-                    (
+                    buyShares === false 
+                    ? null  
+                    : (
                         <div>
                             <form onSubmit={handlePurchase}>
-                                <input type="number" name="amount"/>
+                                {
+                                    costPrev === 0 
+                                    ? null 
+                                    : (<div><p className="preview">You will pay:</p><p className="preview">${costPrev}</p></div>)
+                                }
+                                {submitMessage()}
+                                <input type="number" name="amount" onChange={showCost}/>
                                 <br/><button className="btn" type="submit">Purchase</button>
                             </form>
                         </div>
@@ -75,7 +119,12 @@ const TickerCard = (props) => {
 
             <style jsx>{`
                 p {
-                    margin-top: 20px;
+                    margin: 20px 0;
+                }
+
+                .preview {
+                    font-style: italic;
+                    margin: 0;
                     color: grey;
                 }
 
