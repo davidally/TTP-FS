@@ -1,36 +1,45 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import StockCard from './StockCard';
+
 const Transactions = ({transactions, loading}) => {
+    const [realTime, setRealTime] = useState(null);
+
+    useEffect(() => {
+        let counter = 0;
+        const fetchData = async () => {
+            const tickerList = transactions.join();
+            const res = await axios(`https://sandbox.iexapis.com/v1/stock/market/batch?types=quote&symbols=${tickerList}&filter=open,latestPrice,latestVolume&token=Tpk_4a728bea05b54378b80585aa076cb8e5`);
+            const data = res.data;
+            setRealTime(data);
+        };
+        if (counter === 0) {
+            counter++;
+            fetchData();
+        } 
+        // if (counter > 0) {
+        //     setInterval(() => fetchData(), 3000)
+        // }
+    }, []);
+
     return (
         <div>
             <div className="transaction-list">
                {
-                   transactions.map(item => {
+                   realTime === null
+                   ? null
+                   :
+                   Object.entries(realTime).map(entry => {
                        return (
-                       <div className="ticker-card">
-                           <h3>{item}</h3>
-                       </div>
+                       <StockCard name={entry[0]} data={entry[1]} />
                        )
                    })
                }
             </div>
             <style jsx>{`
-
-               .ticker-card {
-                   width: 300px;
-                   height: 200px;
-                   border: 1px solid #b7b7b7;
-                   border-radius: 5px;
-                   box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
-               }
-                
-                h3 {
-                    font-family: "Nunito Sans", sans-serif;
-                    font-weight: 900;
-                    font-size: 45px;
-                }
-
                 .transaction-list {
                     display: grid;
-                    grid-template-columns: 1fr 1fr;
+                    grid-template-columns: 1fr 1fr 1fr;
                     grid-row-gap: 40px;
                     justify-items: center;
                     margin-top: 20px;
@@ -42,11 +51,3 @@ const Transactions = ({transactions, loading}) => {
 }
 
 export default Transactions;
-
-// <ul>
-//                         <li key={`${stock.toLowerCase()}`}>
-//                             <Link as={`/stock/${stock}`} href={`/post?id=${stock}`}>
-//                                 <a>{stock}</a>
-//                             </Link>
-//                         </li>
-//                     </ul>

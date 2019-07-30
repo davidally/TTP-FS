@@ -1,12 +1,18 @@
 import Link from 'next/link';
 
-export const navMenu = [
-    ["/", "Home"],
-    ["/about", "About"],
-    ["/logout", "Logout"]
-];
+const Header = (props) => {
+    const navMenu = [
+        ["/", "home"],
+        ["/about", "about"],
+        ["/logout", "logout"]
+    ];
 
-const Header = () => (
+    if (props.authorized) {
+        navMenu.splice(1, 0, ['/dashboard', 'dashboard']);
+        navMenu.splice(2, 0, ['/purchases', 'transactions']);
+    }
+
+    return (
     <div className="navigation">
         <div className="nav-menu">
             <ul>
@@ -55,6 +61,7 @@ const Header = () => (
             }
         `}</style>
     </div>
-);
+    )
+};
 
 export default Header;

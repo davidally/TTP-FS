@@ -63,6 +63,7 @@ const TickerCard = (props) => {
             remainingFunds = funds - cost;
             setSuccessMsg(true);
             postTransaction([price, quantity, cost, remainingFunds.toFixed(2)]);
+            setTimeout();
         }
     };
 

@@ -2,19 +2,15 @@ import Layout from '../client/comps/Layout';
 import AccountCard from '../client/comps/AccountCard';
 import Transactions from '../client/comps/Transactions';
 import TickerCard from '../client/comps/TickerCard';
-import Pagination from '../client/comps/Pagination';
 import Search from '../client/comps/Search';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
 const Dashboard = () => { 
-    const [loading, setLoading] = useState(false);
     const [usrData, setData] = useState({});
     const [tickerChoice, setTickerChoice] = useState('');
     const [transactions, setTransactions] = useState([]);
-    const [currPage, setCurrPage] = useState(1);
-    const [perPage, setPerPage] = useState(5);
 
     const handleTickerChoice = (choice) => {
         setTickerChoice(choice);
@@ -22,7 +18,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
 
             const resOne = await axios(`/api/data`);
             const resTwo = await axios(`/api/transData`);
@@ -31,21 +26,12 @@ const Dashboard = () => {
 
             setData(resOne.data);
             setTransactions(newArr);
-
-            setLoading(false);
         };
         fetchData();
     }, []);
 
-    // Transaction pagination
-    const lastIndex = currPage * perPage;
-    const firstIndex = lastIndex - perPage;
-    const currentTransactions = transactions.slice(firstIndex, lastIndex);
-    const paginate = (pageNum) => setCurrPage(pageNum);
-    // END: Transaction pagination
-
     return (
-        <Layout title={'Dashboard'}>
+        <Layout title={'Dashboard'} authorized={true}>
             <div className="container">
                 <div className="dash-title">
                     <h1>Welcome back, {!usrData ? 'User' : usrData.name}!</h1>
@@ -57,14 +43,21 @@ const Dashboard = () => {
                             the current time and initial opening time today. Use the search bar below in order to look
                             up company symbols and click for more data.
                         </p>
-                        <small>Data provided by IEX Cloud.</small>
+                        <small>Data provided by IEX Cloud.</small><br/>
                         <Search handleTicker={handleTickerChoice}/>
-                        <Transactions transactions={currentTransactions} loading={loading} />
-                        <Pagination 
-                            perPage={perPage} 
-                            total={transactions.length} 
-                            paginate={paginate} 
-                        />
+                        {
+                            transactions.length === 0
+                            ? null
+                            : (
+                                <div>
+                                    <Transactions transactions={transactions} />
+                                    <small>
+                                        * Green and red indicate higher and lower pricing than the day's open.<br/>
+                                        ** Grey indicates the price has remained the same.
+                                    </small>
+                                </div>
+                            )
+                        }
                     </div>
                     <div className="account">
                     {

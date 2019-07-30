@@ -8,9 +8,8 @@ const Footer = () => (
 
         .foot-container{
             background-color: #333;
-            max-height: 100%;
+            height: 80px;
             width: 100%;
-            margin-top: 100px;
             text-align: center;
             position: relative;
             bottom: 0;

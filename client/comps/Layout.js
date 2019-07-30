@@ -10,19 +10,39 @@ const Layout = (props) => (
             <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css"/>
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,700|Nunito+Sans:200,900|Open+Sans&display=swap" rel="stylesheet" /> 
         </Head>
-        <Header />
-            <div className="main-content">
-                {props.children}
-            </div>
-        <Footer />
+        <Header authorized={props.authorized}/>
+        <div className="main-content">
+            {props.children}
+        </div>
+        <div className="footer-cont">
+            <Footer />
+        </div>
         <style jsx global>{`
+
+            html,
+            body {
+                height: 100%;
+            }
 
             * {
                 font-family: "Open Sans", sans-serif;
             }
+            
+            .app {
+                height: 100%;
+            }
+
+            .footer-cont {
+                position: relative;
+                width: 100%;
+                bottom: 0;
+                height: 80px;
+            }
 
             .main-content {
                 margin: 20px;
+                margin-bottom: 80px;
+                height: 100%;
             }
             
             p {
