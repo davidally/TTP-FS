@@ -39,10 +39,11 @@ const Dashboard = () => {
                 <div className="dashboard">
                     <div className="transactions">
                         <p className="dash-info">
-                            Here is a list of all your recent transactions. Compare the price difference between
+                            Compare the price difference between
                             the current time and initial opening time today. Use the search bar below in order to look
                             up company symbols and click for more data.
                         </p>
+                        <h3 className="data">Search Stocks</h3>
                         <small>Data provided by IEX Cloud.</small><br/>
                         <Search handleTicker={handleTickerChoice}/>
                         {
@@ -50,10 +51,12 @@ const Dashboard = () => {
                             ? null
                             : (
                                 <div>
+                                    <h3 className="data">You have stakes in:</h3>
                                     <Transactions transactions={transactions} />
-                                    <small>
+                                    <small className="footnotes">
                                         * Green and red indicate higher and lower pricing than the day's open.<br/>
-                                        ** Grey indicates the price has remained the same.
+                                        ** Grey indicates the price has remained the same.<br/>
+                                        *** IMPORTANT: IEX API only provides scrambled data for testing purposes, which is why data shown here may appear inconsistent.
                                     </small>
                                 </div>
                             )
@@ -69,12 +72,23 @@ const Dashboard = () => {
             </div>
             <style jsx>{`
             small {
+                display: block;
+            }
+
+            .footnotes,
+            h3 {
                 margin-top: 50px;
-                display: inline-block;
             }
 
             .container {
                 padding: 30px 150px;
+            }
+            
+            .data {
+                font-family: "Nunito Sans", sans-serif;
+                font-weight: 900;
+                font-size: 38px;
+                color: rgb(22,50,92);
             }
 
             .dash-title {
@@ -85,10 +99,6 @@ const Dashboard = () => {
             .dashboard {
                 display: grid;
                 grid-template-columns: 9fr 3fr;
-                width: 100%;
-            }
-            .account {
-                margin-left: 30px;
             }
 
             @media only screen and (max-width: 1300px) and (min-width: 901px){

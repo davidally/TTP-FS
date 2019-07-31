@@ -41,22 +41,24 @@ const Purchases = () => {
     return (
         <Layout title={'Transactions'} authorized={true}>
             <div className="container">
-                <h1>Transactions</h1>
+                <h1 className="page-title">Transactions</h1>
                 <h1 className="quantity">{`(${transactions.length})`}</h1>
                 <div>
-                    <p>Here are your current transactions. Data shown is at the time of purchase.</p>
+                    <div className="sub-header">
+                        <p>Here are your current transactions. Data shown is at the time of purchase.</p>
+                        <Pagination 
+                            perPage={perPage} 
+                            total={transactions.length} 
+                            paginate={paginate} 
+                        />
+                    </div>
                     <Purchase transactions={currentTransactions} loading={loading} />
                 </div>
-                <Pagination 
-                    perPage={perPage} 
-                    total={transactions.length} 
-                    paginate={paginate} 
-                />
                     {
                         transactions.length >= 1 
                         ? (
                             <div className="summary">
-                                <h3>Portfolio Stats</h3>
+                                <h3 className="data summary-title">Portfolio Stats</h3>
                                 <label>Total Expenses:<p className="data">${getTotal("totalPaid").toFixed(2)}</p></label>
                                 <label>Stock Quantity<p className="data">{getTotal("quantity")}</p></label>
                             </div>
@@ -68,9 +70,20 @@ const Purchases = () => {
                 .container {
                     padding: 30px 90px;  
                 }
-                h1,
+
+                .sub-header {
+                    display: grid;
+                    grid-template-columns: 9fr 3fr;
+                    align-items: flex-end;
+                }
+
+                .page-title,
                 .quantity {
                     display: inline-block;
+                }
+
+                .pagination {
+                    right: 0;
                 }
                 
                 .data {
@@ -78,6 +91,10 @@ const Purchases = () => {
                     font-weight: 900;
                     font-size: 38px;
                     color: rgb(22,50,92);
+                }
+
+                .summary-title {
+                    color: black;
                 }
 
                 .summary {

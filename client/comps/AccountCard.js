@@ -7,7 +7,7 @@ const AccountCard = (props) => {
     }
 
         return (
-            <div>
+            <div className="container">
                 <div className="account-info">
                     <p className="label">ACCOUNT:</p>
                     <p className="acc-title">{props.data.name}</p>
@@ -17,10 +17,16 @@ const AccountCard = (props) => {
                     <p className="acc-email">{props.data.email}</p>
                     <div className="user-buttons">
                         <button className="btn" onClick={seeTransactions}>My Transactions</button>
-                        <button className="btn">Update</button>
+                        <button className="btn">Add $5000</button>
                     </div>
                 </div>
                 <style jsx>{`
+
+                    .container {
+                        background-color: white;
+                        margin-left: 30px;
+                    }
+
                     .label {
                         font-family: 'Roboto', sans-serif;
                         font-weight: 700;

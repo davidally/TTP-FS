@@ -144,9 +144,11 @@ const TickerCard = (props) => {
                     border: 1px solid #b7b7b7;
                     border-radius: 4px;
                     margin-top: 20px;
+                    margin-left: 30px;
                     box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
                     margin-bottom: 20px;
                     padding: 20px;
+                    background-color: white;
                 }
 
                  h3 {

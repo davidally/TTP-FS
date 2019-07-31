@@ -19,22 +19,19 @@ const Layout = (props) => (
         </div>
         <style jsx global>{`
 
-            html,
+
             body {
-                height: 100%;
+                background-color: rgb(245, 245, 245);
             }
 
             * {
                 font-family: "Open Sans", sans-serif;
             }
             
-            .app {
-                height: 100%;
-            }
 
             .footer-cont {
                 position: relative;
-                width: 100%;
+                display: block;
                 bottom: 0;
                 height: 80px;
             }
@@ -42,7 +39,6 @@ const Layout = (props) => (
             .main-content {
                 margin: 20px;
                 margin-bottom: 80px;
-                height: 100%;
             }
             
             p {
