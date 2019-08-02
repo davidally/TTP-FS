@@ -15,7 +15,6 @@ const Purchases = () => {
         const fetchData = async () => {
             setLoading(true);
             const result = await axios(`/api/transData`);
-            console.log(result);
             setTransactions(result.data.transactions.reverse());
             setLoading(false);
         };

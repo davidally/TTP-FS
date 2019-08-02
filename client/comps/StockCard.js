@@ -25,11 +25,11 @@ const StockCard = ({name, data}) => {
             <h3 className={rendercolor()}>{name}</h3>
             <div>
                 <p>{data.quote.companyName}</p>
-                <p>Current Value: ${data.quote.latestPrice}</p>
-                <p>Open: ${data.quote.open}</p>
-                <p>Change {`(from last closing)`}: {`${(data.quote.changePercent * 100).toFixed(3)} %`}</p>
-                <p>Lastest Volume: {data.quote.latestVolume}</p>
-                <p>Close Time: {closeTime}</p>
+                <label className="info">Current Value:<p>${data.quote.latestPrice}</p></label>
+                <label className="info">Open: <p>${data.quote.open}</p></label>
+                <label className="info">Change {`(from last closing)`}:<p> {`${(data.quote.changePercent * 100).toFixed(3)} %`}</p></label>
+                <label className="info">Lastest Volume:<p> {data.quote.latestVolume}</p></label>
+                <label className="info">Close Time:<p> {closeTime}</p></label>
             </div>
             
             <style jsx>{`
@@ -37,6 +37,7 @@ const StockCard = ({name, data}) => {
                     background-color: white;
                     padding: 20px;
                     max-width: 100%;
+                    min-width: 300px;
                     border: 1px solid #b7b7b7;
                     border-radius: 5px;
                     box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
@@ -48,6 +49,12 @@ const StockCard = ({name, data}) => {
                      font-size: 45px;
                  }
 
+                .info {
+                    font-style: italic;
+                    margin: 0;
+                    color: grey;
+                }
+
                  .greater {
                      color: green;
                  }
@@ -56,12 +63,6 @@ const StockCard = ({name, data}) => {
                  }
                  .same {
                     color: grey;
-                 }
-
-                 @media only screen and (max-width: 832) {
-                     .container {
-                        width: 100%;
-                     }
                  }
             `}</style>
         </div>

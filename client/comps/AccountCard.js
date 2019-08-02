@@ -1,4 +1,5 @@
 import Router from 'next/router';
+import axios from 'axios';
 
 const AccountCard = (props) => {
 
@@ -6,6 +7,15 @@ const AccountCard = (props) => {
         Router.push('/purchases');
     }
 
+    const handleFunds = () => {
+        axios.post('/api/addFunds', {
+            funds: 5000
+        })
+        .then(res => {
+            res.status === 201 ? console.log('Success') : console.log('Failure');
+        })
+        .catch(err => console.log(err));
+    }
         return (
             <div className="container">
                 <div className="account-info">
@@ -17,7 +27,9 @@ const AccountCard = (props) => {
                     <p className="acc-email">{props.data.email}</p>
                     <div className="user-buttons">
                         <button className="btn" onClick={seeTransactions}>My Transactions</button>
-                        <button className="btn">Add $5000</button>
+                        <form onSubmit={handleFunds}>
+                            <button className="btn funds-btn">Add $5000</button>
+                        </form>
                     </div>
                 </div>
                 <style jsx>{`
@@ -35,7 +47,7 @@ const AccountCard = (props) => {
                     }
 
                     .account-info {
-                        padding: 0;
+                        padding: 40px;
                         max-width: 100%;
                         border-radius: 5px;
                         border: 1px solid #b7b7b7;
@@ -47,6 +59,10 @@ const AccountCard = (props) => {
                         justify-content: space-between;
                         flex-direction: column;
                         padding: 15px;
+                    }
+
+                    .funds-btn {
+                        width: 100%;
                     }
                     
                     .acc-email,

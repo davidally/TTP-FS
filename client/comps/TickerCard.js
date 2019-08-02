@@ -12,22 +12,17 @@ const TickerCard = (props) => {
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
 
     /**
-     * @desc React hook will initially fetch api data and only if the ticker value changes.
+     * @TODO Fix IEX API data endpoints because they are an incompetent organization
      */
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`https://sandbox.iexapis.com/v1/stock/${props.ticker}/ohlc?token=Tpk_4a728bea05b54378b80585aa076cb8e5`);
-            setCard(result.data);
+
+            result === {} ? null : setCard(result.data)
         };
         fetchData();
     }, [props.ticker]);
 
-    /**
-     * 
-     * @param {object} arr Array of number values.
-     * @desc Takes in an array from handlePurchase and then makes
-     * post request to backend to store data. 
-     */
     const postTransaction = (arr) => {
         axios.post('/api/buyStock', {
             symbol: props.ticker,
@@ -63,7 +58,6 @@ const TickerCard = (props) => {
             remainingFunds = funds - cost;
             setSuccessMsg(true);
             postTransaction([price, quantity, cost, remainingFunds.toFixed(2)]);
-            setTimeout();
         }
     };
 
@@ -107,7 +101,11 @@ const TickerCard = (props) => {
                                 {
                                     costPrev === 0 
                                     ? null 
-                                    : (<div><p className="preview">You will pay:</p><p className="preview">${costPrev}</p></div>)
+                                    : (
+                                        <div>
+                                            <p className="preview">You will pay:</p><p className="preview">${costPrev}</p>
+                                        </div>
+                                    )
                                 }
                                 {submitMessage()}
                                 <input type="number" name="amount" onChange={showCost}/>

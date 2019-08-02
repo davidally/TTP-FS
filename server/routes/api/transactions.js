@@ -45,6 +45,23 @@ router.post('/api/buyStock', isAuth, (req, res) => {
     }));
 });
 
+router.post('/api/addFunds', isAuth, (req, res) => {
+    const id = req.session.userId;
+
+    User.findOneAndUpdate(id, {
+        $inc: {
+            funds: req.body.funds
+        }
+    }, (err => {
+        if (err) {
+            console.log(err)
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(201);
+        }
+    }));
+});
+
 /**
  * @route GET api/transData
  * @desc Get stock transactions.
@@ -58,6 +75,10 @@ router.get('/api/transData', isAuth, (req, res) => {
     .exec()
     .then(data =>{
         res.status(200).json(data);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(404);
     });
 });   
 

@@ -6,6 +6,10 @@ const handle = app.getRequestHandler();
 
 // Database modules
 const mongoose = require('mongoose');
+
+// Connect to Mongo Atlas cloud DB later
+const atlasURI = 'mongodb+srv://dmichaelpro:hi65ICeTgfgIKkhc@node-rest-l2kvx.mongodb.net/test?retryWrites=true&w=majority'
+
 const db = mongoose.connect('mongodb://127.0.0.1:27017/appdatabase', { useNewUrlParser: true})
 .then(()=> console.log('\nMongoose is connected!'))
 .catch(err => console.log(err));

@@ -16,16 +16,21 @@ const Dashboard = () => {
         setTickerChoice(choice);
     };
 
+    /**
+     * @TODO Fix IEX API data endpoints because they are an incompetent organization
+     */
     useEffect(() => {
         const fetchData = async () => {
 
-            const resOne = await axios(`/api/data`);
-            const resTwo = await axios(`/api/transData`);
-            const purchaseList = resTwo.data.transactions;
-            const newArr = purchaseList.map(obj => obj.symbol);
+            const reqOne = await axios(`/api/data`);
+            setData(reqOne.data);
 
-            setData(resOne.data);
-            setTransactions(newArr);
+            const reqTwo = await axios(`/api/transData`);
+            if (reqTwo) {
+                const purchaseList = reqTwo.data.transactions;
+                const newArr = purchaseList.map(obj => obj.symbol);
+                setTransactions(newArr);
+            }
         };
         fetchData();
     }, []);
@@ -54,9 +59,9 @@ const Dashboard = () => {
                                     <h3 className="data">You have stakes in:</h3>
                                     <Transactions transactions={transactions} />
                                     <small className="footnotes">
-                                        * Green and red indicate higher and lower pricing than the day's open.<br/>
-                                        ** Grey indicates the price has remained the same.<br/>
-                                        *** IMPORTANT: IEX API only provides scrambled data for testing purposes, which is why data shown here may appear inconsistent.
+                                        * Green and red indicate higher and lower pricing than the day's open. Grey indicates no change.<br/>
+                                        ** IMPORTANT: IEX API only provides scrambled data for testing purposes, which is why data shown here may appear inconsistent.<br/>
+                                        This board would simulate realtime tracking in a production environment.
                                     </small>
                                 </div>
                             )
