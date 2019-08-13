@@ -1,43 +1,42 @@
+// Load env config
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env'});
+
 const express = require('express');
 const next = require('next');
-const dev = process.env.NODE_ENV !== 'production';
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const isAuth = require('./middleware');
+const session = require('express-session');
+const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-// Database modules
-const mongoose = require('mongoose');
-
-// Connect to Mongo Atlas cloud DB later
-const atlasURI = 'mongodb+srv://dmichaelpro:hi65ICeTgfgIKkhc@node-rest-l2kvx.mongodb.net/test?retryWrites=true&w=majority'
-
-const db = mongoose.connect('mongodb://127.0.0.1:27017/appdatabase', { useNewUrlParser: true})
-.then(()=> console.log('\nMongoose is connected!'))
+/**
+ * Connect to Mongo Atlas cluster DB
+ * @see mongodb://127.0.0.1:27017/appdatabase
+ */
+const db = mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true})
+.then(()=> console.log('\nMongoDB is connected!'))
 .catch(err => console.log(err));
-
-// Authentication modules
-const isAuth = require('./middleware');
-const session = require('express-session');
-
-// Custom APIs
-const userAPI = require('./routes/api/users');
-const purchaseAPI = require('./routes/api/transactions');
 
 app
     .prepare()
     .then(() => {
         const server = express();
 
-        // Custom modules
-        // Configure session cookies to be secure by making sure the site uses HTTPS
+        /********************START: Middleware***********************/
+        process.env.NODE_ENV === 'development' ? server.use(morgan('dev')) : null 
         server.use(session({
-            secret: 'work hard',
+            secret: `${process.env.SECRET}`,
             resave: true,
             saveUninitialized: false
         }));
+        server.use('/api/user', require('./routes/api/user'));
+        server.use('/api/transaction', require('./routes/api/transaction'));
+        /***********************END: Middleware************************/
 
-        server.use(userAPI);
-        server.use(purchaseAPI);
-
+        // NEXT rendering
         server.get('/', (req, res) => {
             app.render(req, res, '/index');
         });
@@ -54,22 +53,14 @@ app
             app.render(req, res, '/purchases');
         });
 
-        // Dynamic Pages - Routing for NEXT Link component
-        server.get('/stock/:id', (req, res) => {
-            const queryParams = { 
-                id: req.params.id
-             };
-            app.render(req, res, '/post', queryParams);
-        });
-
-        // Everything else handled by Next
+        // Everything else handled by NEXT
         server.get('*', (req, res) => {
             return handle(req, res);
         });
 
-        server.listen(3000, err => {
+        server.listen(process.env.PORT, err => {
             if (err) throw err;
-            console.log('READY ON LOCALHOST! Starting...\n');
+            console.log(`*Server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}*\n`);
         });
     })
     .catch(ex => {

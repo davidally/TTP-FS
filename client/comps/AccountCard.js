@@ -8,7 +8,7 @@ const AccountCard = (props) => {
     }
 
     const handleFunds = () => {
-        axios.post('/api/addFunds', {
+        axios.post('/api/transaction/addFunds', {
             funds: 5000
         })
         .then(res => {

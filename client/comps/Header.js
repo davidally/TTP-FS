@@ -3,13 +3,11 @@ import Link from 'next/link';
 const Header = (props) => {
     const navMenu = [
         ["/", "home"],
-        ["/logout", "logout"]
     ];
 
     if (props.authorized) {
         navMenu.shift();
-        navMenu.splice(0, 0, ['/dashboard', 'dashboard']);
-        navMenu.splice(1, 0, ['/purchases', 'transactions']);
+        navMenu.push(['/dashboard', 'dashboard'], ['/purchases', 'transactions'], ['/about', 'about'], ["/api/user/logout", "logout"]);
     }
 
     return (

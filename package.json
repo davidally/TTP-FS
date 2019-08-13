@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "nodemon -w server/server.js server/server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node server/server.js",
+    "export": "next export",
+    "deploy": "npm run build && npm run export"
   },
+  "proxy": "http://localhost:3000",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/davidally/TTP-FS.git"
@@ -20,6 +23,8 @@
   },
   "homepage": "https://github.com/davidally/TTP-FS#readme",
   "devDependencies": {
+    "dotenv": "^8.0.0",
+    "morgan": "^1.9.1",
     "nodemon": "^1.19.1"
   },
   "dependencies": {

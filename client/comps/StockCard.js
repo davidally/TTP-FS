@@ -1,13 +1,14 @@
 const StockCard = ({name, data}) => {
+
     const rendercolor = () => {
-        if (data.quote.latestPrice > data.quote.open){
+        if (data.quote.latestPrice > data.quote.previousClose){
             return "greater";
-        } else if (data.quote.latestPrice < data.quote.open) {
+        } else if (data.quote.latestPrice < data.quote.previousClose) {
             return "lower";
         } else return "same"
     }
     
-    const toParse = new Date(data.quote.closeTime);
+    const toParse = new Date(data.quote.latestUpdate);
     const msec = Date.parse(toParse);
     const date = new Date(msec);
     const closeTime = date.toLocaleTimeString('en-US');
@@ -16,7 +17,7 @@ const StockCard = ({name, data}) => {
      * @TODO Look into implementing Server-side events.
      * @note Not available for testing at the moment. Only available to certain tiers.
      */
-    // const events = new EventSource(`https://cloud-sse.iexapis.com/stable/stocksUS5Second?symbols=aapl,fb&token=Tpk_4a728bea05b54378b80585aa076cb8e5`);
+    // const events = new EventSource(`https://sandbox-sse.iexapis.com/stable/stocksUS5Second?symbols=aapl,fb&token=Tpk_4a728bea05b54378b80585aa076cb8e5`);
     // events.onopen = (e) => console.log(e);
     // events.onmessage = ({data}) => console.log(data);
 
@@ -26,10 +27,10 @@ const StockCard = ({name, data}) => {
             <div>
                 <p>{data.quote.companyName}</p>
                 <label className="info">Current Value:<p>${data.quote.latestPrice}</p></label>
-                <label className="info">Open: <p>${data.quote.open}</p></label>
+                <label className="info">Previous Close: <p>${data.quote.previousClose}</p></label>
                 <label className="info">Change {`(from last closing)`}:<p> {`${(data.quote.changePercent * 100).toFixed(3)} %`}</p></label>
-                <label className="info">Lastest Volume:<p> {data.quote.latestVolume}</p></label>
-                <label className="info">Close Time:<p> {closeTime}</p></label>
+                <label className="info">Status:<p> {data.quote.latestSource}</p></label>
+                <label className="info">Last Update:<p> {closeTime}</p></label>
             </div>
             
             <style jsx>{`

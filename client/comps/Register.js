@@ -39,7 +39,7 @@ class Register extends React.Component {
                         onSubmit={(values, actions) => {
                             // Send registration data to server for processing
                             setTimeout( () => {
-                                fetch('/api/register', {
+                                fetch('/api/user/register', {
                                     method: 'post',
                                     headers: {
                                         'Accept': 'application/json, text/plain, */*',

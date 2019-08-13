@@ -34,7 +34,7 @@ class Login extends React.Component {
                         onSubmit={(values, actions) => {
                             setTimeout( () => {
                                 // Post data to login route
-                                fetch('/api/authenticate', {
+                                fetch('/api/user/authenticate', {
                                     method: 'post',
                                     headers: {
                                         'Accept': 'application/json, text/plain, */*',

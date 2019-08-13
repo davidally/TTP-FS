@@ -2,7 +2,7 @@ import Layout from '../client/comps/Layout';
 
 const About = () => {
     return (
-        <Layout title={'About Stockfolio'}>
+        <Layout title={'About Stockfolio'} authorized={true}>
             <p>This is the about page.</p>
         </Layout>
     );

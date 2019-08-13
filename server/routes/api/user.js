@@ -8,11 +8,11 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 /**
- * @route POST api/register
+ * @route POST api/user/register
  * @desc Register user account.
  * @access Public
  */
-router.post('/api/register', (req, res) => {
+router.post('/register', (req, res) => {
     // Create new user and log to db
     const userProfile = new User({
         name: req.body.name,
@@ -37,7 +37,7 @@ router.post('/api/register', (req, res) => {
 });
 
 /**
- * @route POST api/authenticate
+ * @route POST api/user/authenticate
  * @desc User login/authentication.
  * @access Public
  * Mongoose queries are executed asynchronously if passing a callback.
@@ -45,7 +45,7 @@ router.post('/api/register', (req, res) => {
  * This is when the query is finished and initial callback
  * is finally executed. 
  */
-router.post('/api/authenticate', (req, res) => {
+router.post('/authenticate', (req, res) => {
     const { email, pass } = req.body
     let userID;
     User.findOne({ email }, (err, user) =>{
@@ -78,11 +78,11 @@ router.post('/api/authenticate', (req, res) => {
 });
 
 /**
- * @route GET api/data
+ * @route GET api/user/data
  * @desc Query db and return user data.
  * @access Private
  */
-router.get('/api/data', isAuth, (req, res) => {
+router.get('/data', isAuth, (req, res) => {
     const id = req.session.userId;
     User.findById(id, (err, user) => {
         if (err) {
@@ -103,9 +103,9 @@ router.get('/api/data', isAuth, (req, res) => {
 });
 
 /**
- * @route GET api/data
+ * @route GET api/user/logout
  * @desc Logout - Destroys user session used for authentication.
- * @access Public
+ * @access Private
  */
 router.get('/logout', function(req, res, next) {
     if (req.session) {

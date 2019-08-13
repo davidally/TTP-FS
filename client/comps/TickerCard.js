@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
+import Router from 'next/router';
+import getConfig from 'next/config';
 import axios from 'axios';
+
+const { publicRuntimeConfig } = getConfig();
+const { IEX_API_KEY } = publicRuntimeConfig;
 
 const TickerCard = (props) => {
     // React hooks initialize state and their setter functions
@@ -7,17 +12,16 @@ const TickerCard = (props) => {
     const [buyShares, setBuyButton] = useState(false);
     const [successMsg, setSuccessMsg] = useState(null);
     const [costPrev, setCostPrev] = useState(0);
-
+    
     const currentDate = new Date();
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
-
+    
     /**
-     * @TODO Fix IEX API data endpoints because they are an incompetent organization
+     * @TODO Fix IEX API endpoints because they are an incompetent organization
      */
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios(`https://sandbox.iexapis.com/v1/stock/${props.ticker}/ohlc?token=Tpk_4a728bea05b54378b80585aa076cb8e5`);
-
+            const result = await axios(`https://sandbox.iexapis.com/v1/stock/${props.ticker}/ohlc?token=${IEX_API_KEY}`);
             result === {} ? null : setCard(result.data)
         };
         fetchData();
@@ -32,7 +36,7 @@ const TickerCard = (props) => {
             remainingFunds: arr[3]
         })
         .then(res => {
-            res.status === 201 ? console.log('Success') : console.log('Failure');
+            res.status === 201 ? setTimeout(() => Router.push('/purchases'), 1000) : console.log('Failure');
         })
         .catch(err => console.log(err));
     };  
@@ -57,7 +61,7 @@ const TickerCard = (props) => {
         } else {
             remainingFunds = funds - cost;
             setSuccessMsg(true);
-            postTransaction([price, quantity, cost, remainingFunds.toFixed(2)]);
+            postTransaction([price.toFixed(2), quantity, cost.toFixed(2), remainingFunds.toFixed(2)]);
         }
     };
 

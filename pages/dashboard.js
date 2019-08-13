@@ -18,17 +18,20 @@ const Dashboard = () => {
 
     /**
      * @TODO Fix IEX API data endpoints because they are an incompetent organization
+     * Fix response coming from server, returning HTML rather than JSON.
      */
     useEffect(() => {
         const fetchData = async () => {
 
-            const reqOne = await axios(`/api/data`);
-            setData(reqOne.data);
+            const reqOne = await axios(`/api/user/data`);
+            const reqTwo = await axios(`/api/transaction`);
 
-            const reqTwo = await axios(`/api/transData`);
-            if (reqTwo) {
+            if (typeof(reqTwo.data) === 'string'){
+                window.location.reload(true);
+            } else {
                 const purchaseList = reqTwo.data.transactions;
                 const newArr = purchaseList.map(obj => obj.symbol);
+                setData(reqOne.data);
                 setTransactions(newArr);
             }
         };

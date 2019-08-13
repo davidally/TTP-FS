@@ -10,11 +10,11 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 /**
- * @route POST api/buystock
+ * @route POST api/transaction/buyStock
  * @desc Save stock purchase transaction.
  * @access Private
  */
-router.post('/api/buyStock', isAuth, (req, res) => {
+router.post('/buyStock', isAuth, (req, res) => {
     const id = req.session.userId;
 
     const transaction = new Transaction({
@@ -45,7 +45,31 @@ router.post('/api/buyStock', isAuth, (req, res) => {
     }));
 });
 
-router.post('/api/addFunds', isAuth, (req, res) => {
+
+/**
+ * @route GET api/transactions
+ * @desc Get stock transactions.
+ * @access Private
+ */
+router.get('/', isAuth, (req, res) => {
+    const id = req.session.userId;
+    User
+    .findById(id)
+    .populate('transactions')
+    .exec()
+    .then(data =>{
+        res.status(200).json(data);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(404);
+    });
+});   
+
+/**
+ * TEST ROUTE: Give yourself $5000
+ */
+router.post('/addFunds', isAuth, (req, res) => {
     const id = req.session.userId;
 
     User.findOneAndUpdate(id, {
@@ -61,25 +85,5 @@ router.post('/api/addFunds', isAuth, (req, res) => {
         }
     }));
 });
-
-/**
- * @route GET api/transData
- * @desc Get stock transactions.
- * @access Private
- */
-router.get('/api/transData', isAuth, (req, res) => {
-    const id = req.session.userId;
-    User
-    .findById(id)
-    .populate('transactions')
-    .exec()
-    .then(data =>{
-        res.status(200).json(data);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(404);
-    });
-});   
 
 module.exports = router;

@@ -6,16 +6,13 @@ const Layout = (props) => (
     <div className="app">
         <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>{props.title}</title>
+            <title>Stockfolio - {props.title}</title>
             <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css"/>
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,700|Nunito+Sans:200,900|Open+Sans&display=swap" rel="stylesheet" /> 
         </Head>
         <Header authorized={props.authorized}/>
         <div className="main-content">
             {props.children}
-        </div>
-        <div className="footer-cont">
-            <Footer />
         </div>
         <style jsx global>{`
 
