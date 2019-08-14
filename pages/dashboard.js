@@ -23,11 +23,11 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
 
-            const reqOne = await axios(`/api/user/data`);
-            const reqTwo = await axios(`/api/transaction`);
+            const reqOne = await axios(`/user/data`);
+            const reqTwo = await axios(`/transaction`);
 
             if (typeof(reqTwo.data) === 'string'){
-                window.location.reload(true);
+                console.log(reqTwo);
             } else {
                 const purchaseList = reqTwo.data.transactions;
                 const newArr = purchaseList.map(obj => obj.symbol);

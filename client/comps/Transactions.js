@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
+import getConfig from 'next/config';
 import axios from 'axios';
 import StockCard from './StockCard';
-import getConfig from 'next/config';
 
 /**
  * @TODO Use context api to make key availble from top of app, hidden from user
  */
 const { publicRuntimeConfig } = getConfig();
-const { IEX_API_KEY } = publicRuntimeConfig;
+const { IEX_API_KEY, IEX_BASE_URL } = publicRuntimeConfig;
 
 const Transactions = ({transactions, loading}) => {
     const [realTime, setRealTime] = useState(null);
@@ -16,7 +16,7 @@ const Transactions = ({transactions, loading}) => {
         let counter = 0;
         const fetchData = async () => {
             const tickerList = transactions.join();
-            const res = await axios(`https://sandbox.iexapis.com/v1/stock/market/batch?types=quote&symbols=${tickerList}&filter=latestPrice,previousClose,companyName,changePercent,latestSource,latestTime,latestUpdate&token=${IEX_API_KEY}`);
+            const res = await axios(`${IEX_BASE_URL}/v1/stock/market/batch?types=quote&symbols=${tickerList}&filter=latestPrice,previousClose,companyName,changePercent,latestSource,latestTime,latestUpdate&token=${IEX_API_KEY}`);
             const data = res.data;
             setRealTime(data);
         };

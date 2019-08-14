@@ -1,89 +1,26 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const User = require('../../models/userModel');
-const Transaction = require('../../models/transactionModel');
 const isAuth = require('../../middleware');
+const TransactionsController = require('../../controllers/transactions');
 
 const router = express.Router();
-
-router.use(bodyParser.json());
 
 /**
  * @route POST api/transaction/buyStock
  * @desc Save stock purchase transaction.
  * @access Private
  */
-router.post('/buyStock', isAuth, (req, res) => {
-    const id = req.session.userId;
-
-    const transaction = new Transaction({
-        _id: mongoose.Types.ObjectId(),
-        symbol: req.body.symbol,
-        totalPaid: req.body.totalPaid,
-        pricePerShare: req.body.pricePerShare,
-        quantity: req.body.quantity,
-        postTime: new Date()
-    });
-    transaction.save();
-
-    // Once transaction is saved push its reference into user array
-    User.findOneAndUpdate(id, {
-        $push: {
-            transactions: transaction
-        }, 
-        $set: {
-            funds: req.body.remainingFunds
-        }
-    }, (err => {
-        if (err) {
-            console.log(err)
-            res.sendStatus(500);
-        } else {
-            res.sendStatus(201);
-        }
-    }));
-});
-
+router.post('/buyStock', isAuth, TransactionsController.make_stock_purchase);
 
 /**
  * @route GET api/transactions
  * @desc Get stock transactions.
  * @access Private
  */
-router.get('/', isAuth, (req, res) => {
-    const id = req.session.userId;
-    User
-    .findById(id)
-    .populate('transactions')
-    .exec()
-    .then(data =>{
-        res.status(200).json(data);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(404);
-    });
-});   
+router.get('/', isAuth, TransactionsController.get_stock_transactions);   
 
 /**
  * TEST ROUTE: Give yourself $5000
  */
-router.post('/addFunds', isAuth, (req, res) => {
-    const id = req.session.userId;
-
-    User.findOneAndUpdate(id, {
-        $inc: {
-            funds: req.body.funds
-        }
-    }, (err => {
-        if (err) {
-            console.log(err)
-            res.sendStatus(500);
-        } else {
-            res.sendStatus(201);
-        }
-    }));
-});
+router.post('/addFunds', isAuth, TransactionsController.add_five_funds);
 
 module.exports = router;

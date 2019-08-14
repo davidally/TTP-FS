@@ -1,13 +1,15 @@
-// Load env config
 const dotenv = require('dotenv');
-dotenv.config({ path: './config.env'});
-
+const path = require('path');
 const express = require('express');
+const session = require('express-session');
+const bodyParser = require("body-parser");
 const next = require('next');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const isAuth = require('./middleware');
-const session = require('express-session');
+
+// Load env config
+dotenv.config({ path: './config.env'});
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -16,7 +18,7 @@ const handle = app.getRequestHandler();
  * Connect to Mongo Atlas cluster DB
  * @see mongodb://127.0.0.1:27017/appdatabase
  */
-const db = mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true})
+const db = mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
 .then(()=> console.log('\nMongoDB is connected!'))
 .catch(err => console.log(err));
 
@@ -27,13 +29,14 @@ app
 
         /********************START: Middleware***********************/
         process.env.NODE_ENV === 'development' ? server.use(morgan('dev')) : null 
+        server.use(bodyParser.json());
         server.use(session({
             secret: `${process.env.SECRET}`,
             resave: true,
             saveUninitialized: false
         }));
-        server.use('/api/user', require('./routes/api/user'));
-        server.use('/api/transaction', require('./routes/api/transaction'));
+        server.use('/user', require('./routes/api/user'));
+        server.use('/transaction', require('./routes/api/transaction'));
         /***********************END: Middleware************************/
 
         // NEXT rendering

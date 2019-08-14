@@ -2,6 +2,7 @@ import Router from 'next/router';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import fetch from 'isomorphic-unfetch';
 
+
 /**
  * @TODO Make this and register into containers in order to 
  * separate the Formik logic from the rest of the component.
@@ -34,10 +35,10 @@ class Login extends React.Component {
                         onSubmit={(values, actions) => {
                             setTimeout( () => {
                                 // Post data to login route
-                                fetch('/api/user/authenticate', {
+                                fetch('/user/authenticate', {
                                     method: 'post',
                                     headers: {
-                                        'Accept': 'application/json, text/plain, */*',
+                                        'Accept': 'application/json, */*',
                                         'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify(values)

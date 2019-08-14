@@ -7,7 +7,7 @@ const Header = (props) => {
 
     if (props.authorized) {
         navMenu.shift();
-        navMenu.push(['/dashboard', 'dashboard'], ['/purchases', 'transactions'], ['/about', 'about'], ["/api/user/logout", "logout"]);
+        navMenu.push(['/dashboard', 'dashboard'], ['/purchases', 'transactions'], ['/about', 'about'], ["/user/logout", "logout"]);
     }
 
     return (
