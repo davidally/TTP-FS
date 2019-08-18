@@ -23,8 +23,8 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
 
-            const reqOne = await axios(`/user/data`);
-            const reqTwo = await axios(`/transaction`);
+            const reqOne = await axios.get(`/user/data`);
+            const reqTwo = await axios.get(`/transaction`);
 
             if (typeof(reqTwo.data) === 'string'){
                 console.log(reqTwo);

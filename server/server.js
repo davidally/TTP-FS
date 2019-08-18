@@ -1,5 +1,4 @@
 const dotenv = require('dotenv');
-const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require("body-parser");
@@ -10,39 +9,37 @@ const isAuth = require('./middleware');
 
 // Load env config
 dotenv.config({ path: './config.env'});
+
+const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev });
 const handle = app.getRequestHandler();
-
-/**
- * Connect to Mongo Atlas cluster DB
- * @see mongodb://127.0.0.1:27017/appdatabase
- */
-const db = mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-.then(()=> console.log('\nMongoDB is connected!'))
+const db = mongoose.connect(process.env.MONGODB_URI, { 
+    useNewUrlParser: true,  
+    useFindAndModify: false,
+    useCreateIndex: true
+})
+.then((data)=> {
+    console.log('\nMongoDB is connected!')
+})
 .catch(err => console.log(err));
 
-app
-    .prepare()
-    .then(() => {
+app.prepare().then(() => {
         const server = express();
-
-        /********************START: Middleware***********************/
-        process.env.NODE_ENV === 'development' ? server.use(morgan('dev')) : null 
         server.use(bodyParser.json());
+
+        // Morgan logging
+        process.env.NODE_ENV === 'development' ? server.use(morgan('dev')) : null 
+        // Express session setup
         server.use(session({
             secret: `${process.env.SECRET}`,
             resave: true,
             saveUninitialized: false
         }));
+        // Use API
         server.use('/user', require('./routes/api/user'));
         server.use('/transaction', require('./routes/api/transaction'));
-        /***********************END: Middleware************************/
 
-        // NEXT rendering
-        server.get('/', (req, res) => {
-            app.render(req, res, '/index');
-        });
 
         server.get('/about', (req, res) => {
             app.render(req, res, '/about');
@@ -63,7 +60,7 @@ app
 
         server.listen(process.env.PORT, err => {
             if (err) throw err;
-            console.log(`*Server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}*\n`);
+            console.log(`*Server running in ${process.env.NODE_ENV.toUpperCase()} mode on port ${port}*\n`);
         });
     })
     .catch(ex => {
